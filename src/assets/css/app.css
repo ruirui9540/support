@@ -1,0 +1,221 @@
+/* * {
+    margin: 0;
+    padding: 0;
+}
+
+ol,
+ul,
+li {
+    list-style: none;
+}
+
+a {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    width: 100%;
+    height: 100%;
+}
+
+input,
+textarea,
+select,
+button {
+    font: 14px Verdana, Helvetica, Arial, sans-serif;
+    border: 1px solid #999;
+}
+
+body {
+    padding-top: 70px;
+    background: #fff;
+    color: #565656;
+    font-size: 16px;
+    font-family: "Microsoft YaHei", Arial, Helvetica, sans-serif;
+}
+
+.clearFix:after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.wrap {
+    width: 1200px;
+    overflow: hidden;
+    margin: auto;
+    min-width: 1200px;
+}
+
+.coverWidth {
+    width: 100%;
+}
+
+.ellipsis1 {
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+.ellipsis2 {
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.ellipsis3 {
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.ellipsis5 {
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    line-clamp: 5;
+    -webkit-box-orient: vertical;
+}
+
+.ellipsis6 {
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    line-clamp: 6;
+    -webkit-box-orient: vertical;
+}
+
+.ellipsis7 {
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 7;
+    line-clamp: 7;
+    -webkit-box-orient: vertical;
+}
+
+.ad_banner {
+    width: 100%;
+    min-width: 1200px;
+    overflow: hidden;
+}
+
+.ad_banner img {
+    width: 100%;
+    float: left;
+}
+
+.title_dark {
+    font-size: 22px;
+    color: #fff;
+    text-align: center;
+    padding-top: 46px;
+}
+
+.title_dark img {
+    width: 128px;
+    height: 9px;
+    display: block;
+    margin: 16px auto 0 auto;
+}
+
+.title_light {
+    font-size: 22px;
+    color: #2a2a2a;
+    text-align: center;
+    padding-top: 46px;
+
+}
+
+.title_light img {
+    width: 128px;
+    height: 9px;
+    display: block;
+    margin: 16px auto 0 auto;
+}
+
+img {
+    vertical-align: bottom;
+}
+
+.outter {
+    width: 100%;
+    min-width: 1200px;
+} */
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td { margin:0; padding:0; } 
+body, button, input, select, textarea { font:12px/1.5tahoma, arial, \5b8b\4f53; } 
+h1, h2, h3, h4, h5, h6{ font-size:100%; } 
+address, cite, dfn, em, var { font-style:normal; } 
+code, kbd, pre, samp { font-family:couriernew, courier, monospace; } 
+small{ font-size:12px; } 
+ul, ol { list-style:none; } 
+a { text-decoration:none; } 
+a:hover { text-decoration:underline; } 
+sup { vertical-align:text-top; } 
+sub{ vertical-align:text-bottom; } 
+legend { color:#000; } 
+fieldset, img { border:0; } 
+button, input, select, textarea { font-size:100%; } 
+table { border-collapse:collapse; border-spacing:0; }
+html{font-size: 12px;height:100%;height:100%;}
+.flexbox{
+	/* display:box; */
+	display:-webkit-box;
+	display:-webkit-flex; 
+	display:-moz-box; 
+	display:-ms-flexbox; 
+	display:flex;
+}
+.flex{
+	-prefix-box-flex: 1; 
+	 -webkit-box-flex: 1; 
+	 -webkit-flex: 1; 
+	 -moz-box-flex: 1; 
+	 -ms-flex: 1; 
+	 flex: 1; 
+}
+.height{
+	width:100%;
+	height:100%;
+}
+.mar{
+	margin-right:20px;
+}
+.mar1{
+	margin-right:10px;
+}
+.mar2{
+	margin-right:5px;
+}
+body{
+	width:100%;
+	background: url('../image/bg4.png') no-repeat top center;
+	background-size: 100% 100%;
+    font-size: 14px;
+    height: 100%;
+    overflow: hidden;
+}
