@@ -2,7 +2,7 @@
   <div>
     <header class='flexbox'>
 			<div class='flex'>场景化深度挖掘分析评估系统</div>
-			<div class='lefttab'><span :class="page == '/' ? 'active':''">高校</span>/<span>住宅区</span>/<span>写字楼</span>/<span>工业园区</span></div>
+			<div class='lefttab'><span :class="page == '/' ? 'active':''">高校</span>/<span @click="to('/home')" :class="page == '/home' ? 'active':''">住宅区</span>/<span>写字楼</span>/<span>工业园区</span></div>
 			<div class='time'>2019年5月28日 <br/>12:00:00</div>
 		</header>
   </div>
@@ -25,12 +25,15 @@ export default {
   },
   methods: {
     to(e) {
-      window.scrollTo(0, 0)
-      if (e != this.$route.path) {
-        this.$router.push({
+		this.$router.push({
           path: e
         })
-      }
+    //   window.scrollTo(0, 0)
+    //   if (e != this.$route.path) {
+    //     this.$router.push({
+    //       path: e
+    //     })
+    //   }
     }
   }
 }
