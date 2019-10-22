@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router/router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import '@/assets/css/app.css';
+import '@/assets/css/app.less';
 import api from './core/net/api';
 import VueCookies from 'vue-cookies';
 import echarts from 'echarts'

@@ -1,7 +1,9 @@
 <template>
   <div class="contain flexbox">
-    <Left></Left>
-    <Right></Right>
+    <el-row :gutter="20">
+      <el-col :span="12"><Left></Left></el-col>
+      <el-col :span="12"><Right></Right></el-col>
+    </el-row>
   </div>
 </template>
 
@@ -36,82 +38,20 @@ export default {
 </script>
 
 <style lang="less" >
-.contain {
-  width: 96%;
-  height: calc(100% - 90px);
-  margin: 20px 2% 0;
-}
-.contain > div:nth-child(1) {
-  width: 60%;
-}
-#bar,
-.pie,
-.rightcon {
-  width: 100%;
-  height: 85%;
-  position: relative;
-  z-index: 3;
-}
-.num {
-  width: 50%;
-}
-.num > div {
-  border: 2px solid rgba(57, 191, 237, 0.5);
-  padding: 3px;
-}
-.num > div > div {
-  background-color: rgba(57, 191, 237, 0.5);
-  text-align: center;
-  color: #57c7ed;
-  height: 100px;
-  line-height: 26px;
-}
-.num > div > div > img {
-  width: 30px;
-  margin-top: 10px;
-}
-.num > div > div > div:nth-child(3) {
-  color: #fff;
-  font-size: 20px;
-}
-.bottom {
-  width: 100%;
-  height: 80%;
-  background: url("../assets/image/map.png") top left no-repeat;
-  background-size: 100%;
-  position: relative;
-}
-.bottom::after {
-  content: "";
-  width: 100%;
-  height: 100%;
-  display: inline-block;
-  background: url(../assets/image/top-left.png) top left no-repeat,
-    url("../assets/image/top-right.png") top right no-repeat,
-    url("../assets/image/bottom-left.png") bottom left no-repeat,
-    url("../assets/image/bottom-right.png") bottom right no-repeat;
-  background-size: 1%;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-.rightTop::after,
-.rightbottom::after {
-  content: "";
-  width: 100%;
-  height: 100%;
-  display: inline-block;
-  background: url(../assets/image/top-left.png) top left no-repeat,
-    url("../assets/image/top-right.png") top right no-repeat,
-    url("../assets/image/bottom-left.png") bottom left no-repeat,
-    url("../assets/image/bottom-right.png") bottom right no-repeat;
-  background-size: 1.8%;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-.commontitle {
-  color: #00ffff;
-  padding: 12px;
+.contain{
+  width:100%;
+  height:calc(100% - 100px);
+  margin:20px;
+  box-sizing: border-box;
+  .el-row {
+    width:100%;
+    height:100%;
+    &:last-child {
+      margin-bottom: 0;
+    }
+    .el-col{
+      height:100%;
+    }
+  }
 }
 </style>

@@ -1,73 +1,59 @@
 <template>
-<div class='right flex'>
-				<div class='rightbottom '>
-					<div class='commontitle'>xxxxxx</div>
-					<div class='rightcon'>
-							<div class='flexbox'>
-								<div class='flex rightdiv flexbox mar'>
-									<div class='bottomimg flexbox'>
-										<div>
-											<img src="image/phone.png" alt="">
-											<div>Top终端</div>
-										</div>
-									</div>
-									<div class='con flex'>
-										<div><i></i>小米</div>
-										<div><i></i>华为</div>
-										<div><i></i>苹果</div>
-									</div>
-								</div>
-							<div class='flex rightdiv flexbox mar'>
-								<div class='bottomimg flexbox'>
-									<div>
-										<img src="image/bottomdiv1.png" alt="">
-									<div>Top套餐</div>
-									</div>
-								</div>
-								<div class='con flex'>
-										<div><i></i>19元</div>
-										<div><i></i>29元</div>
-										<div><i></i>39元</div>
-									</div>
-							</div>
-						</div>
-						<div class='flexbox '>
-							<div class='flex rightdiv flexbox mar'>
-								<div class='bottomimg flexbox'>
-									<div>
-										<img src="image/yewu.png" alt="">
-									<div>Top业务</div>
-									</div>
-								</div>
-								<div class='con flex'>
-									<div><i></i>业务1</div>
-									<div><i></i>业务2</div>
-									<div><i></i>业务xx</div>
-								</div>
-							</div>
-							<div class='flex rightdiv flexbox mar'>
-								
-								<div class='bottomimg flexbox'>
-									<div>
-										<img src="image/flow.png" alt="">
-									<div>单用户日均流量</div>
-									</div>
-								</div>
-								<div class='con flex'>
-									<div><i></i>日均流量1</div>
-									<div><i></i>日均流量2</div>
-									<div><i></i>日均流量3</div>
-								</div>
-								
-							</div>
-						</div>
-					</div>
+<div class='height'>
+	<el-card class="box-card">
+		<div slot="header" class="clearfix">
+			 <span class='cardHead'><i class='el-icon-s-management'></i>河南省无线网投入产出比</span>
+			<el-button type="primary" style="float: right;margin-top: -6px;" size="small" icon="el-icon-edit"  @click="dialogFormVisible = true">调配预测</el-button>
+		</div>
+		<div id='bar' class='height'></div>
+	</el-card>
+ <div class='rightBottom marT'>
+	 <el-row :gutter="20">
+      <el-col :span="12">
+		  <el-card class="height">
+				<div slot="header" class="clearfix">
+					<span class='cardHead cardTitle'><i class='el-icon-s-management'></i>投入</span>
+					 <el-select v-model="value1" class='elSelect' collapse-tags size='small' number=2 multiple placeholder="请选择">
+						<el-option
+						v-for="item in options"
+						:key="item.value"
+						:label="item.label"
+						:value="item.value">
+						</el-option>
+					</el-select>
 				</div>
-				<div class='rightTop '>
-					<div class='commontitle'>网络体验口碑</div>
-					<div id='bar'></div>
+				<div id='pie' class='height'></div>
+			</el-card>
+	  	</el-col>
+      <el-col :span="12">
+		  <el-card class="height">
+				<div slot="header" class="clearfix">
+					<span class='cardHead'><i class='el-icon-s-management'></i>产出</span>
 				</div>
-			</div>
+				<div id='pie1' class='height'></div>
+			</el-card>
+		</el-col>
+    </el-row>
+ </div>
+<!-- 弹出框 -->
+ <el-dialog title="名称" :visible.sync="dialogFormVisible">
+  <el-form :model="form">
+    <el-form-item label="活动名称" :label-width="formLabelWidth">
+      <el-input v-model="form.name" autocomplete="off"></el-input>
+    </el-form-item>
+    <el-form-item label="活动区域" :label-width="formLabelWidth">
+      <el-select v-model="form.region" placeholder="请选择活动区域">
+        <el-option label="区域一" value="shanghai"></el-option>
+        <el-option label="区域二" value="beijing"></el-option>
+      </el-select>
+    </el-form-item>
+  </el-form>
+  <div slot="footer" class="dialog-footer">
+    <el-button @click="dialogFormVisible = false">取 消</el-button>
+    <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+  </div>
+</el-dialog>
+</div>
 </template>
 
 <script>
@@ -77,10 +63,41 @@ export default {
   data() {
     return {
       page: this.$route.path,
-      showNav:false
+      options: [{
+          value: '选项1',
+          label: '黄金糕'
+        }, {
+          value: '选项2',
+          label: '双皮奶'
+        }, {
+          value: '选项3',
+          label: '蚵仔煎'
+        }, {
+          value: '选项4',
+          label: '龙须面'
+        }, {
+          value: '选项5',
+          label: '北京烤鸭'
+        }],
+        value1: [],
+		dialogFormVisible: false,
+        form: {
+          name: '',
+          region: '',
+          date1: '',
+          date2: '',
+          delivery: false,
+          type: [],
+          resource: '',
+          desc: ''
+        },
+        formLabelWidth: '120px'
     }
   },
   created() {},
+  mounted(){
+ this.drawPie()
+  },
   watch: {
     $route(to, from) {
       this.page = to.path
@@ -95,91 +112,61 @@ export default {
         })
       }
     },
+	open() {
+        this.$alert('<strong>这是 <i>HTML</i> 片段</strong>', 'HTML 片段', {
+          dangerouslyUseHTMLString: true
+        });
+	  },
+	  drawPie(){
+		  var option={
+			tooltip: {
+				trigger: "item",
+				formatter: "{a} <br/>{b} : {c} ({d}%)"
+			},
+			legend: {
+				orient: "vertical",
+				x: "left",
+				data: ["直接访问", "邮件营销", "联盟广告"]
+			},
+			calculable: !0,
+			series: [{
+				name: "访问来源",
+				type: "pie",
+				radius: "55%",
+				center: ["50%", "50%"],
+				data: [{
+					value: 335,
+					name: "直接访问"
+				}, {
+					value: 310,
+					name: "邮件营销"
+				}, {
+					value: 234,
+					name: "联盟广告"
+				}]
+			}]
+		};
+		var chart = this.$echarts.init(document.getElementById('pie'));//获取容器元素
+      window.onresize = chart.resize;
+      chart.setOption(option);
+	  }
   }
 }
 </script>
 
 <style lang="less" scoped>
-.right{
-	margin-left:20px;
-}
-.rightTop,.rightbottom{
+.box-card{
 	width: 100%;
-	height:54%;
-    background:url('../assets/image/rightbg.png') top left no-repeat;
-	background-size: 100%;
-	position: relative;
+	height:48%
 }
-.rightbottom{
-	margin-bottom: 23px;
-	height: 40%
+.rightBottom{
+	width:100%;
+	height:48%
 }
-.rightcon{
-	width: 100%;
-	height:82%;
-	box-sizing: border-box;
-	padding:5px  30px  10px
-}
-.rightcon>div{
-	width: 100%;
-	height: 45%;
-	margin-bottom: 20px
-}
-.rightdiv {
-	text-align: center;
-	color: #fff;
-    position: relative;
-    border-radius: 10px
-}
-.rightcon>div:nth-child(1)>div:nth-child(1){
-	background-image: linear-gradient(0deg, 
-		#56d9ff 0%, 
-		#8cb2ff 100%);
-}
-.rightcon>div:nth-child(1)>div:nth-child(2){
-	background-image: linear-gradient(0deg, 
-		#ff7eb5 0%, 
-		#c017ff 100%);
-	border-radius: 10px;
-}
-.rightcon>div:nth-child(2)>div:nth-child(1){
-	background-image: linear-gradient(0deg, 
-		#fbbb6e 0%, 
-		#f6ce9e 100%);
-}
-.rightcon>div:nth-child(2)>div:nth-child(2){
-	background-image: linear-gradient(0deg, 
-		#36bbb5 0%, 
-		#69e4de 100%);
-}
-.rightdiv img{
-	width: 30px
-}
-.rightdiv>.bottomimg{
-	width: 100px;
-	height: 100%;
-	justify-content: center;
-    align-items: center;
-}
-.con{
-	padding:5px 10px 5px 20px;
-	text-align: left;
-	line-height: 30px
-}
-.con>div{
-	position: relative;
-	/* margin-bottom: 10px */
-	font-family: SourceHanSansC;
-	font-size: 12px
-}
-.con>div>i{
-	width:6px;
-	height:6px;
-	background-color: #fff;
-	border-radius: 50%;
+.elSelect{
+	float:right;
 	vertical-align: middle;
-	display: inline-block;
-	margin-right: 5px
+	width:45%;
+	 margin-top: -6px;
 }
-
 </style>

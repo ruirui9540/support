@@ -1,10 +1,9 @@
 <template>
   <div>
     <header class='flexbox'>
-			<div class='flex'>场景化深度挖掘分析评估系统</div>
-			<div class='lefttab'><span :class="page == '/' ? 'active':''">高校</span>/<span @click="to('/home')" :class="page == '/home' ? 'active':''">住宅区</span>/<span>写字楼</span>/<span>工业园区</span></div>
-			<div class='time'>2019年5月28日 <br/>12:00:00</div>
-		</header>
+		<div class='flex'>场景化深度挖掘分析评估系统</div>
+		<div class='admin'>欢迎您，admin</div>
+	</header>
   </div>
 </template>
 
@@ -41,48 +40,27 @@ export default {
 
 <style lang="less" scoped>
 header{
-	background: url('../assets/image/title.png') no-repeat top center;
-	background-size: 100% ; 
 	width:100%;
 	height:68px;
-	text-align: center;
+	text-align: left;
 	position: relative;
+	background-color: #0b5288;
+	box-shadow: inset 0px -1px 0px 0px 
+		rgba(5, 65, 110, 0.7);
+	color: #fff;
+	padding:0 20px;
+	line-height: 68px;
+	box-sizing: border-box;
+		.admin{
+			font-size:14px;
+		}
+
 }
 header>div:nth-child(1){
 	color: #ffffff;
-box-shadow: 2px 2px 9px 0px 
-		#01153b;
-		font-size: 20px;
-			line-height: 68px;
+	font-size: 20px;
+
 }
 
-.headerLeft>div{
-	width: 148px;
-	height: 100%
-}
-.headerLeft .active{
-	background: url('../assets/image/active1.png') no-repeat top center;
-	background-size: 76% 85%; 
-}
-.time{
-	position: absolute;
-	left: 0;
-	top:5px;
-	color: #fff;
-	font-size: 12px
-}
-.lefttab{
-	position: absolute;
-	right: 5px;
-	top:12px;
-	color: #fff;
-	font-size: 12px
-}
-.lefttab>span{
-	margin:0 5px;
-}
-.lefttab .active{
-	color: #71ccde;
-}
 </style>
 
