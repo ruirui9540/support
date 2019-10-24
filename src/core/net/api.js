@@ -3,20 +3,20 @@ import VueCookies from 'vue-cookies';
 
 let baseURL = '';
 /*第一层if判断生产环境和开发环境*/
-if (process.env.NODE_ENV === 'production') {
-    /*第二层if，根据.env文件中的VUE_APP_FLAG判断是生产环境还是测试环境*/
-    if (process.env.VUE_APP_TITLE === 'pro') {
-        //production 生产环境
-        axios.defaults.baseURL = 'http://api.xinggeyun.com';
-    } else {
-        //test 测试环境
-        axios.defaults.baseURL = 'http://192.168.0.152:8102/test';
-    }
-} else {
-    //dev 开发环境
-    axios.defaults.baseURL = 'http://192.168.0.152:8102/dev';
-}
-console.log(axios.defaults.baseURL)
+// if (process.env.NODE_ENV === 'production') {
+//     /*第二层if，根据.env文件中的VUE_APP_FLAG判断是生产环境还是测试环境*/
+//     if (process.env.VUE_APP_TITLE === 'pro') {
+//         //production 生产环境
+//         axios.defaults.baseURL = 'http://api.xinggeyun.com';
+//     } else {
+//         //test 测试环境
+//         axios.defaults.baseURL = 'http://192.168.0.152:8102/test';
+//     }
+// } else {
+//     //dev 开发环境
+//     axios.defaults.baseURL = 'http://192.168.0.152:8102/dev';
+// }
+// console.log(axios.defaults.baseURL)
 // if (location.host.indexOf('uniondrug.cn') > -1) {
 //     baseURL = 'https://web-backend.uniondrug.cn';
 // } else if (location.host.indexOf('uniondrug.net') > -1) {

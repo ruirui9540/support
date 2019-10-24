@@ -1,31 +1,12 @@
 <template>
   <div class="height">
-    <el-row :gutter="20" style="height:48%">
-      <el-col :span="24">
-        <el-card class="height">
-          <div slot="header" class="clearfix">
-            <span class="cardHead">
-              <i class="el-icon-s-management"></i>河南省无线网投入产出比
-            </span>
-            <el-button
-              type="primary"
-              style="float: right;margin-top: -6px;"
-              size="small"
-              icon="el-icon-edit"
-              @click="open"
-            >调配预测</el-button>
-          </div>
-          <div id="bar" class="height"></div>
-        </el-card>
-      </el-col>
-    </el-row>
-    <div class="rightBottom marT">
-      <el-row :gutter="20">
-        <el-col :span="14">
+    <div class="rightBottom">
+      <el-row :gutter="20" class='height'>
+        <el-col :span="12" style='height:100%'>
           <el-card class="height">
             <div slot="header" class="clearfix">
               <span class="cardHead cardTitle">
-                <i class="el-icon-s-management"></i><span @click='back' class='back'>投入</span><span>{{pieheader}}</span>
+                <i class="el-icon-s-management"></i>投入
               </span>
               <el-select
                 v-model="chooseData"
@@ -48,7 +29,7 @@
             <div id="pie" class="height"></div>
           </el-card>
         </el-col>
-        <el-col :span="10">
+        <el-col :span="12" style='height:100%'>
           <el-card class="height">
             <div slot="header" class="clearfix">
               <span class="cardHead">
@@ -60,6 +41,25 @@
         </el-col>
       </el-row>
     </div>
+    <el-row :gutter="20" style="height:48%" class='marT'>
+      <el-col :span="24" style='height:100%'>
+        <el-card class="height">
+          <div slot="header" class="clearfix">
+            <span class="cardHead">
+              <i class="el-icon-s-management"></i>河南省无线网投入产出比
+            </span>
+            <el-button
+              type="primary"
+              style="float: right;margin-top: -6px;"
+              size="small"
+              icon="el-icon-edit"
+              @click="open"
+            >调配预测</el-button>
+          </div>
+          <div id="bar" class="height"></div>
+        </el-card>
+      </el-col>
+    </el-row>
     <!-- 弹出框 -->
     <eDialog :show.sync="show" :title="title" @close="close"></eDialog>
   </div>
@@ -79,7 +79,7 @@ export default {
       options: [{
         value: 'ALL_SELECT',
         label: '全选'
-      }, {
+      },{
         value: '选项1',
         label: '2015'
       }, {
@@ -96,75 +96,19 @@ export default {
         label: '2019'
       }],
       chooseData: [],
-      oldChooseData: [],
+      oldChooseData:[],
       show: false,
-      title: '无线网',
-      piedata: [
-        { value: 17, name: '建安投资' },
-        { value: 23, name: '设备投资' },
-        { value: 27, name: '待摊投资' }],
-      jianan: [
-        { value: 17, name: '材料费' },
-        { value: 23, name: '施工费' },
-      ],
-      sumdata: [
-        { value: 17, name: '建安投资' },
-        { value: 23, name: '设备投资' },
-        { value: 27, name: '待摊投资' }],
-      jianan: [
-        { value: 17, name: '材料费' },
-        { value: 23, name: '施工费' },
-      ],
-      daitan:[
-        { value: 17, name: '建设单位管理费' },
-        { value: 23, name: '征地及补偿费' },
-        { value: 27, name: '可行性研究费' },
-        { value: 23, name: '勘察设计费' },
-        { value: 27, name: '合同公证及监理费' },
-        { value: 23, name: '资本化借款利息' },
-        { value: 27, name: '中介机构审计费' },
-        { value: 23, name: '汇兑损益' },
-        { value: 27, name: '税金' },
-        { value: 23, name: '工程损失' },
-        { value: 27, name: '系统集成费' },
-        { value: 23, name: '安全生产费' },
-        { value: 27, name: '工程招标代理费' },
-        { value: 23, name: '环境影响评价费' },
-        { value: 27, name: '其他' },
-      ],
-      shebei:[
-        { value: 27, name: 'LTE主设备1.8G' },
-        { value: 23, name: 'LTE主设备2.1G' },
-        { value: 27, name: 'LTE主设备800M' },
-        { value: 23, name: '室内分布系统' },
-        { value: 27, name: '无线网配套及其他' },
-      ],
-      pietitle:'总投入',
-      pieheader:''
+      title: '无线网'
     }
   },
   created() { },
   mounted() {
-    this.chart = this.$echarts.init(document.getElementById('pie'));//获取容器元素
-    this.drawPie1()
-    this.drawPie(this.piedata)
+    this.drawPie()
     this.drawLine()
-    this.clickPie()
   },
   watch: {
     $route(to, from) {
       this.page = to.path
-    },
-    piedata:{
-      deep:true,
-      handler:function(newval,oldval){
-        if(newval){
-            this.drawPie(newval)
-        }else{
-          this.drawPie(oldval)
-          console.log(this.pietitle)
-        }
-      }
     }
   },
   methods: {
@@ -176,11 +120,6 @@ export default {
         })
       }
     },
-    back(){
-      this.piedata=this.sumdata
-      this.pietitle='总投入',
-      this.pieheader=''
-    },
     open() {
       this.show = true;
     },
@@ -188,46 +127,45 @@ export default {
       this.show = false
     },
     change(val) {
-      const allValues = this.options.map(item => {
+       const allValues = this.options.map(item => {
         return item.value;
       });
       // 用来储存上一次选择的值，可进行对比
       const oldVal = this.oldChooseData.length > 0 ? this.oldChooseData : [];
-
+ 
       // 若选择全部
       if (val.includes('ALL_SELECT')) {
         this.chooseData = allValues;
       }
-
+ 
       // 取消全部选中， 上次有， 当前没有， 表示取消全选
       if (oldVal.includes('ALL_SELECT') && !val.includes('ALL_SELECT')) {
         this.chooseData = [];
       }
-
+ 
       // 新老数据都有全部选中,那就说明除了全选以外的被选择，所以去掉全选
       if (oldVal.includes('ALL_SELECT') && val.includes('ALL_SELECT')) {
         const index = val.indexOf('ALL_SELECT');
         val.splice(index, 1); // 排除全选选项
         this.chooseData = val;
       }
-
+ 
       // 全选未选，但是其他选项都全部选上了，则全选选上
       if (!oldVal.includes('ALL_SELECT') && !val.includes('ALL_SELECT')) {
         if (val.length === allValues.length - 1) {
           this.chooseData = ['ALL_SELECT'].concat(val);
         }
       }
-
+ 
       // 储存当前选择的最后结果 作为下次的老数据
       this.oldChooseData = this.chooseData;
 
     },
-    drawPie(piedata) {
-      var that=this;
-      var colorList = ['#006EDD', '#FF7F50', '#00d488', '#afa3f5', '#3feed4', '#f1bb4c', "rgba(250,250,250,0.5)",'#ffc257', '#3bafff', '#ffedcc','#fd6f97', '#fed4e0','#a181fc', '#e3d9fe'];
+    drawPie() {
+      var colorList = ['#006EDD', '#afa3f5', '#00d488', '#3feed4', '#3bafff', '#f1bb4c', "rgba(250,250,250,0.5)"];
       var option = {
         title: {
-          subtext: that.pietitle,
+          subtext: '总投入',
           x: '38%',
           y: '42%',
           textStyle: {
@@ -261,7 +199,7 @@ export default {
           // 主要展示层的
           {
             radius: ['30%', '56%'],
-            center: ['47%', '50%'],
+            center: ['45%', '50%'],
             type: 'pie',
             itemStyle: {
               normal: {
@@ -289,7 +227,11 @@ export default {
               normal: {
                 formatter: function (params) {
                   var str = '';
-                  str = '{nameStyle|' + params.name + ' }' + '{rate|' + params.value + '%}';
+                  switch (params.name) {
+                    case '待摊投资': str = '{nameStyle|待摊投资 }' + '{rate|' + params.value + '%}'; break;
+                    case '设备投资': str = '{nameStyle|设备投资 }' + '{rate|' + params.value + '%}'; break;
+                    case '建安投资': str = '{nameStyle|建安投资 }' + '{rate|' + params.value + '%}'; break;
+                  }
                   return str
                 },
                 padding: [0, -80],
@@ -308,12 +250,15 @@ export default {
                 }
               }
             },
-            data: piedata
+            data: [
+              { value: 17, name: '建安投资' },
+              { value: 23, name: '设备投资' },
+              { value: 27, name: '待摊投资' },]
           },
           // 边框的设置
           {
             radius: ['52%', '56%'],
-            center: ['47%', '50%'],
+            center: ['45%', '50%'],
             type: 'pie',
             label: {
               normal: {
@@ -346,25 +291,15 @@ export default {
           }
         ]
       };
-      
-      window.onresize = this.chart.resize;
-      this.chart.setOption(option);
-    },
-    clickPie(){
-      var that=this;
-// 处理点击事件并且跳转到相应的百度搜索页面
-      this.chart.on('click', function (param) {
-        var name = param.name;
-        that.pietitle=name;
-        that.pieheader=' > '+name
-        if (name === '待摊投资') {
-          that.piedata=that.daitan
-        }else if(name === '设备投资'){
-           that.piedata=that.shebei
-        }else{
-           that.piedata=that.jianan
-        }
+      var chart = this.$echarts.init(document.getElementById('pie'));//获取容器元素
+      window.onresize = chart.resize;
+      chart.setOption(option);
+      // 处理点击事件并且跳转到相应的百度搜索页面
+      chart.on('click', function (params) {
+        console.log(params)
+        var name=param.name;
       });
+
     },
     drawLine() {
       var category = ['2015', '2016', '2017', '2018', '2019'];
@@ -380,7 +315,7 @@ export default {
           borderType: 'dotted',
           color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
             offset: 0.4,
-            color: "#FF7F50"
+            color: "rgba(255,252,0,1)"
           },
           {
             offset: 1,
@@ -559,93 +494,6 @@ export default {
       var chart = this.$echarts.init(document.getElementById('bar'));//获取容器元素
       window.onresize = chart.resize;
       chart.setOption(option);
-    },
-    drawPie1() {
-      var data = [
-        {
-          name: '回本周期',
-          value: 54
-        }, {
-          name: 'APPU值',
-          value: 44
-        }]
-
-      var titleArr = [], seriesArr = [];
-      var colors = [['#006EDD', '#dfeaff'], ['#FF7F50', '#ffdcc3'], ['#ffc257', '#ffedcc'], ['#fd6f97', '#fed4e0'], ['#a181fc', '#e3d9fe']]
-      data.forEach(function (item, index) {
-        titleArr.push(
-          {
-            text: item.name,
-            left: index * 40 + 24 + '%',
-            top: '75%',
-            textAlign: 'center',
-            textStyle: {
-              fontWeight: 'normal',
-              fontSize: '16',
-              color: colors[index][0],
-              textAlign: 'center',
-            },
-          }
-        );
-        seriesArr.push(
-          {
-            name: item.name,
-            type: 'pie',
-            clockWise: false,
-            radius: [40, 50],
-            itemStyle: {
-              normal: {
-                color: colors[index][0],
-                shadowColor: colors[index][0],
-                shadowBlur: 0,
-                label: {
-                  show: false
-                },
-                labelLine: {
-                  show: false
-                },
-              }
-            },
-            hoverAnimation: false,
-            center: [index * 40 + 24 + '%', '45%'],
-            data: [{
-              value: item.value,
-              label: {
-                normal: {
-                  formatter: function (params) {
-                    return params.value + '';
-                  },
-                  position: 'center',
-                  show: true,
-                  textStyle: {
-                    fontSize: '20',
-                    fontWeight: 'bold',
-                    color: colors[index][0]
-                  }
-                }
-              },
-            }, {
-              value: 100 - item.value,
-              name: 'invisible',
-              itemStyle: {
-                normal: {
-                  color: colors[index][1]
-                },
-                emphasis: {
-                  color: colors[index][1]
-                }
-              }
-            }]
-          }
-        )
-      });
-      var option = {
-        title: titleArr,
-        series: seriesArr
-      }
-      var chart = this.$echarts.init(document.getElementById('pie1'));//获取容器元素
-      window.onresize = chart.resize;
-      chart.setOption(option);
     }
   }
 }
@@ -661,8 +509,5 @@ export default {
   vertical-align: middle;
   width: 45%;
   margin-top: -6px;
-}
-.back:hover{
-  text-decoration: underline;
 }
 </style>

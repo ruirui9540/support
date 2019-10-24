@@ -2,6 +2,12 @@
   <div>
     <header class='flexbox'>
 		<div class='flex'>场景化深度挖掘分析评估系统</div>
+    <div class='flex caidan'>
+      <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tab-pane label="用户管理" name="/">标签一</el-tab-pane>
+        <el-tab-pane label="配置管理" name="/home">标签二</el-tab-pane>
+      </el-tabs>
+    </div>
 		<div class='admin'>欢迎您，admin</div>
 	</header>
   </div>
@@ -13,7 +19,8 @@ export default {
   name: 'header-box',
   data() {
     return {
-      page: this.$route.path
+      page: this.$route.path,
+      activeName: '/'
     }
   },
   created() {},
@@ -27,12 +34,11 @@ export default {
 		this.$router.push({
           path: e
         })
-    //   window.scrollTo(0, 0)
-    //   if (e != this.$route.path) {
-    //     this.$router.push({
-    //       path: e
-    //     })
-    //   }
+    },
+    handleClick(tab, event){
+      console.log(tab, event)
+      var name=tab.name;
+      this.to(name)
     }
   }
 }
@@ -41,7 +47,7 @@ export default {
 <style lang="less" scoped>
 header{
 	width:100%;
-	height:68px;
+	height:60px;
 	text-align: left;
 	position: relative;
 	background-color: #0b5288;
@@ -49,7 +55,7 @@ header{
 		rgba(5, 65, 110, 0.7);
 	color: #fff;
 	padding:0 20px;
-	line-height: 68px;
+	line-height: 60px;
 	box-sizing: border-box;
 		.admin{
 			font-size:14px;
@@ -59,8 +65,16 @@ header{
 header>div:nth-child(1){
 	color: #ffffff;
 	font-size: 20px;
-
 }
-
+.on{
+  text-decoration: underline;
+  background: #fff;
+  color:#333;
+  width:60px;
+}
+.caidan>div{
+  display:inline-block;
+  text-align: center
+  }
 </style>
 

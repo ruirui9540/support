@@ -45,24 +45,24 @@ export default {
       }
     },
     drawMap(){
-var data = [{name: "安阳市", value: "705.67"},
-            {name: "新乡市", value: "772.46"},
-            {name: "濮阳市", value: "578.88"},
-            {name: "焦作市", value: "608.03"},
-            {name: "鹤壁市", value: "250.26"},
-            {name: "三门峡市", value: "448.68"},
-            {name: "信阳市", value: "2069.85"},
-            {name: "南阳市", value: "936.26"},
-            {name: "周口市", value: "1247.13"},
-            {name: "商丘市", value: "1076.15"},
-            {name: "平顶山市", value: "2267.64"},
-            {name: "开封市", value: "748.57"},
-            {name: "洛阳市", value: "2036.49"},
-            {name: "济源市", value: "100.83"},
-            {name: "漯河市", value: "592.77"},
-            {name: "许昌市", value: "877.30"},
-            {name: "郑州市", value: "2761.25"},
-            {name: "驻马店市", value: "2876.34"}];
+var data = [{name: "安阳市", value: Math.round(1e3 * Math.random())},
+            {name: "新乡市", value: Math.round(1e3 * Math.random())},
+            {name: "濮阳市", value: Math.round(1e3 * Math.random())},
+            {name: "焦作市", value: Math.round(1e3 * Math.random())},
+            {name: "鹤壁市", value: Math.round(1e3 * Math.random())},
+            {name: "三门峡市", value: Math.round(1e3 * Math.random())},
+            {name: "信阳市", value: Math.round(1e3 * Math.random())},
+            {name: "南阳市", value: Math.round(1e3 * Math.random())},
+            {name: "周口市", value: Math.round(1e3 * Math.random())},
+            {name: "商丘市", value: Math.round(1e3 * Math.random())},
+            {name: "平顶山市", value: Math.round(1e3 * Math.random())},
+            {name: "开封市", value:Math.round(1e3 * Math.random())},
+            {name: "洛阳市", value: Math.round(1e3 * Math.random())},
+            {name: "济源市", value: Math.round(1e3 * Math.random())},
+            {name: "漯河市", value: Math.round(1e3 * Math.random())},
+            {name: "许昌市", value: Math.round(1e3 * Math.random())},
+            {name: "郑州市", value:Math.round(1e3 * Math.random())},
+            {name: "驻马店市", value:Math.round(1e3 * Math.random())}];
   var geoCoordMap = { // 地图数据
             "郑州市":[113.43808,34.619528],
             "安阳市":[114.336098,36.082031],
@@ -134,7 +134,7 @@ var option = {
     visualMap: {
         show: true,
         min: 0,
-        max: 3000,
+        max: 2500,
         left: '0',
         top: 'bottom',
         calculable: true,
@@ -176,7 +176,7 @@ var option = {
             coordinateSystem: 'geo',
             data: convertData(data),
             symbolSize: function(val) {
-                return val[2] / 300;
+                return val[2] / 80;
             },
             label: {
                 normal: {
@@ -233,7 +233,7 @@ var option = {
                 return b.value - a.value;
             }).slice(0, 10)),
             symbolSize: function(val) {
-                return val[2] / 300;
+                return val[2] / 80;
             },
             showEffectOn: 'render',
             rippleEffect: {
