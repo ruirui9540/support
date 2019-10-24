@@ -45,24 +45,24 @@ export default {
       }
     },
     drawMap(){
-var data = [{name: "安阳市", value: Math.round(1e3 * Math.random()),rate:Math.random().toFixed(2)},
-            {name: "新乡市", value: Math.round(1e3 * Math.random()),rate:Math.random().toFixed(2)},
-            {name: "濮阳市", value: Math.round(1e3 * Math.random()),rate:Math.random().toFixed(2)},
-            {name: "焦作市", value: Math.round(1e3 * Math.random()),rate:Math.random().toFixed(2)},
-            {name: "鹤壁市", value: Math.round(1e3 * Math.random()),rate:Math.random().toFixed(2)},
-            {name: "三门峡市", value: Math.round(1e3 * Math.random()),rate:Math.random().toFixed(2)},
-            {name: "信阳市", value: Math.round(1e3 * Math.random()),rate:Math.random().toFixed(2)},
-            {name: "南阳市", value: Math.round(1e3 * Math.random()),rate:Math.random().toFixed(2)},
-            {name: "周口市", value: Math.round(1e3 * Math.random()),rate:Math.random().toFixed(2)},
-            {name: "商丘市", value: Math.round(1e3 * Math.random()),rate:Math.random().toFixed(2)},
-            {name: "平顶山市", value: Math.round(1e3 * Math.random()),rate:Math.random().toFixed(2)},
-            {name: "开封市", value:Math.round(1e3 * Math.random()),rate:Math.random().toFixed(2)},
-            {name: "洛阳市", value: Math.round(1e3 * Math.random()),rate:Math.random().toFixed(2)},
-            {name: "济源市", value: Math.round(1e3 * Math.random()),rate:Math.random().toFixed(2)},
-            {name: "漯河市", value: Math.round(1e3 * Math.random()),rate:Math.random().toFixed(2)},
-            {name: "许昌市", value: Math.round(1e3 * Math.random()),rate:Math.random().toFixed(2)},
-            {name: "郑州市", value:Math.round(1e3 * Math.random()),rate:Math.random().toFixed(2)},
-            {name: "驻马店市", value:Math.round(1e3 * Math.random()),rate:Math.random().toFixed(2)}];
+var data = [{name: "安阳市", value: Math.round(1e3 * Math.random()),rate:92},
+            {name: "新乡市", value: Math.round(1e3 * Math.random()),rate:91},
+            {name: "濮阳市", value: Math.round(1e3 * Math.random()),rate:183},
+            {name: "焦作市", value: Math.round(1e3 * Math.random()),rate:155},
+            {name: "鹤壁市", value: Math.round(1e3 * Math.random()),rate:108},
+            {name: "三门峡市", value: Math.round(1e3 * Math.random()),rate:83},
+            {name: "信阳市", value: Math.round(1e3 * Math.random()),rate:98},
+            {name: "南阳市", value: Math.round(1e3 * Math.random()),rate:106},
+            {name: "周口市", value: Math.round(1e3 * Math.random()),rate:158},
+            {name: "商丘市", value: Math.round(1e3 * Math.random()),rate:130},
+            {name: "平顶山市", value: Math.round(1e3 * Math.random()),rate:176},
+            {name: "开封市", value:Math.round(1e3 * Math.random()),rate:102},
+            {name: "洛阳市", value: Math.round(1e3 * Math.random()),rate:122},
+            {name: "济源市", value: Math.round(1e3 * Math.random()),rate:111},
+            {name: "漯河市", value: Math.round(1e3 * Math.random()),rate:153},
+            {name: "许昌市", value: Math.round(1e3 * Math.random()),rate:140},
+            {name: "郑州市", value:Math.round(1e3 * Math.random()),rate:190},
+            {name: "驻马店市", value:Math.round(1e3 * Math.random()),rate:192}];
   var geoCoordMap = { // 地图数据
             "郑州市":[113.43808,34.619528],
             "安阳市":[114.336098,36.082031],
@@ -126,7 +126,7 @@ var option = {
             +'<p style="color:#fff;font-size:12px;">'+'<i style="display:inline-block;width:10px;height:10px;background:#16d6ff;border-radius:40px;margin:0 8px">'+'</i>'
             +'无线网项目数量：'+'<span style="color:#11ee7d;margin:0 6px;font-size:14px;">'+params.value+'</span>'+'个'+'</p>'
             +'<p style="color:#fff;font-size:12px;">'+'<i style="display:inline-block;width:10px;height:10px;background:#16d6ff;border-radius:40px;margin:0 8px">'+'</i>'
-            +'投入产出比：'+'<span style="color:#f48225;margin:0 6px;font-size:14px;">'+params.data.rate*100+'</span>'+'%'+'</p>'
+            +'投入产出比：'+'<span style="color:#f48225;margin:0 6px;font-size:14px;">'+params.data.rate+'</span>'+'%'+'</p>'
             +'</div>'+'</div>';
             }
             
@@ -147,7 +147,7 @@ var option = {
         //     color: ['#ffffff', '#E0DAFF', '#ADBFFF', '#9CB4FF', '#6A9DFF', '#3889FF']
         // }
         inRange: {
-             color: ['#E6FFFF', '#3ab8f2','#115dab'] // 蓝绿
+             color: ['#E6FFFF', '#3ab8f2','#6990D5'] // 蓝绿
         }
     },
     geo: {
@@ -180,7 +180,7 @@ var option = {
             coordinateSystem: 'geo',
             data: convertData(data),
             symbolSize: function(val) {
-                return val[2]*20 ;
+                return val[2]/50 ;
             },
             label: {
                 normal: {
@@ -237,7 +237,7 @@ var option = {
                 return b.value - a.value;
             }).slice(0, 10)),
             symbolSize: function(val) {
-                return val[2]*20 ;
+                return val[2]/50 ;
             },
             showEffectOn: 'render',
             rippleEffect: {

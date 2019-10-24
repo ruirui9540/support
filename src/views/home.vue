@@ -38,6 +38,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+
   .contain{
   width:100%;
   height:calc(100% - 95px);

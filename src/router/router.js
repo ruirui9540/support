@@ -15,7 +15,7 @@ export default new Router({
         name: 'index',
         component: () => import('../views/index.vue'),
         meta: {
-            title: 'support',
+            title: '中国电信河南公司投资收益评估系统',
             isKeepAlive: false,
         },
     },{

@@ -220,7 +220,7 @@ export default {
     },
     drawPie(piedata) {
       var that=this;
-      var colorList = ['#006EDD', '#FF7F50', '#00d488', '#afa3f5', '#3feed4', '#f1bb4c', "#6A9DFF",'#ffc257','rgba(5, 65, 110, 1)', '#3bafff', '#ffedcc','#fd6f97', '#fed4e0','#a181fc','#115dab', '#e3d9fe'];
+      var colorList = ['#6990D5', '#FF7F50', '#00d488', '#afa3f5', '#3feed4', '#f1bb4c', "#6A9DFF",'#ffc257','rgba(5, 65, 110, 1)', '#3bafff', '#ffedcc','#fd6f97', '#fed4e0','#a181fc','#115dab', '#e3d9fe'];
       var option = {
         title: {
           subtext: that.pietitle,
@@ -373,13 +373,13 @@ export default {
     drawLine() {
       var category = ['2015', '2016', '2017', '2018', '2019'];
       var dottedBase = [];
-      var lineData = [18092, 20728, 24045, 28348, {        value: 32800,
+      var lineData = [177133, 169043, 156670, 123908, {        value: 61954,
         itemStyle: {
           borderType: 'dotted',
           color: '#ffdcc3'
         }
       }];
-      var barData = [4600, 50000, 5500, 25000, {        value: 12500,
+      var barData = [96083, 246140, 318999, 408068, {        value: 521779.48,
         itemStyle: {
           borderType: 'dotted',
           color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
@@ -545,7 +545,7 @@ export default {
                 color: new this.$echarts.graphic.LinearGradient(
                   0, 0, 0, 1,
                   [
-                     { offset: 0, color: '#115dab' },
+                     { offset: 0, color: '#6990D5' },
                     { offset: 1, color: '#3ab8f2' }
                   ]
                 )
@@ -570,7 +570,7 @@ export default {
         }]
 
       var titleArr = [], seriesArr = [];
-      var colors = [['#006EDD', '#dfeaff'], ['#FF7F50', '#ffdcc3'], ['#ffc257', '#ffedcc'], ['#fd6f97', '#fed4e0'], ['#a181fc', '#e3d9fe']]
+      var colors = [['#6990D5', '#dfeaff'], ['#FF7F50', '#ffdcc3'], ['#ffc257', '#ffedcc'], ['#fd6f97', '#fed4e0'], ['#a181fc', '#e3d9fe']]
       data.forEach(function (item, index) {
         titleArr.push(
           {

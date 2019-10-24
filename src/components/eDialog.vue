@@ -145,14 +145,16 @@ export default {
       }
     },
     onsubmit(){
-      this.show = false;
-      if((val.lteRate1+val.lteRate2+val.lteRate3+val.lteRate4+val.lteRate5)!=100){
+      var val=this.form;
+       var num=Number(val.lteRate1)+Number(val.lteRate2)+Number(val.lteRate3)+Number(val.lteRate4)+Number(val.lteRate5)
+      if(num!=100){
            this.$message({
             message: '各项比例相加不等于100哦！',
             type: 'warning'
           });
           return
         }
+        this.show = false;
     }
   }
 }

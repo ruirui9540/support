@@ -45,12 +45,14 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import '../assets/css/common.less';
+// #13aac0
 header{
 	width:100%;
 	height:60px;
 	text-align: left;
 	position: relative;
-	background-color: #115dab;
+	background-color: @color;
 	box-shadow: inset 0px -1px 0px 0px 
 		rgba(5, 65, 110, 0.7);
 	color: #fff;
