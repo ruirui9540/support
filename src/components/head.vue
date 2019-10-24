@@ -1,13 +1,13 @@
 <template>
   <div>
     <header class='flexbox'>
-		<div class='flex'>场景化深度挖掘分析评估系统</div>
-    <div class='flex caidan'>
+		<div class='flex'>中国电信河南公司投资收益评估系统</div>
+    <!-- <div class='flex caidan'>
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="用户管理" name="/">标签一</el-tab-pane>
         <el-tab-pane label="配置管理" name="/home">标签二</el-tab-pane>
       </el-tabs>
-    </div>
+    </div> -->
 		<div class='admin'>欢迎您，admin</div>
 	</header>
   </div>
@@ -50,7 +50,7 @@ header{
 	height:60px;
 	text-align: left;
 	position: relative;
-	background-color: #0b5288;
+	background-color: #115dab;
 	box-shadow: inset 0px -1px 0px 0px 
 		rgba(5, 65, 110, 0.7);
 	color: #fff;

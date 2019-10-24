@@ -45,24 +45,24 @@ export default {
       }
     },
     drawMap(){
-var data = [{name: "安阳市", value: Math.round(1e3 * Math.random())},
-            {name: "新乡市", value: Math.round(1e3 * Math.random())},
-            {name: "濮阳市", value: Math.round(1e3 * Math.random())},
-            {name: "焦作市", value: Math.round(1e3 * Math.random())},
-            {name: "鹤壁市", value: Math.round(1e3 * Math.random())},
-            {name: "三门峡市", value: Math.round(1e3 * Math.random())},
-            {name: "信阳市", value: Math.round(1e3 * Math.random())},
-            {name: "南阳市", value: Math.round(1e3 * Math.random())},
-            {name: "周口市", value: Math.round(1e3 * Math.random())},
-            {name: "商丘市", value: Math.round(1e3 * Math.random())},
-            {name: "平顶山市", value: Math.round(1e3 * Math.random())},
-            {name: "开封市", value:Math.round(1e3 * Math.random())},
-            {name: "洛阳市", value: Math.round(1e3 * Math.random())},
-            {name: "济源市", value: Math.round(1e3 * Math.random())},
-            {name: "漯河市", value: Math.round(1e3 * Math.random())},
-            {name: "许昌市", value: Math.round(1e3 * Math.random())},
-            {name: "郑州市", value:Math.round(1e3 * Math.random())},
-            {name: "驻马店市", value:Math.round(1e3 * Math.random())}];
+var data = [{name: "安阳市", value: Math.round(1e3 * Math.random()),rate:Math.random().toFixed(2)},
+            {name: "新乡市", value: Math.round(1e3 * Math.random()),rate:Math.random().toFixed(2)},
+            {name: "濮阳市", value: Math.round(1e3 * Math.random()),rate:Math.random().toFixed(2)},
+            {name: "焦作市", value: Math.round(1e3 * Math.random()),rate:Math.random().toFixed(2)},
+            {name: "鹤壁市", value: Math.round(1e3 * Math.random()),rate:Math.random().toFixed(2)},
+            {name: "三门峡市", value: Math.round(1e3 * Math.random()),rate:Math.random().toFixed(2)},
+            {name: "信阳市", value: Math.round(1e3 * Math.random()),rate:Math.random().toFixed(2)},
+            {name: "南阳市", value: Math.round(1e3 * Math.random()),rate:Math.random().toFixed(2)},
+            {name: "周口市", value: Math.round(1e3 * Math.random()),rate:Math.random().toFixed(2)},
+            {name: "商丘市", value: Math.round(1e3 * Math.random()),rate:Math.random().toFixed(2)},
+            {name: "平顶山市", value: Math.round(1e3 * Math.random()),rate:Math.random().toFixed(2)},
+            {name: "开封市", value:Math.round(1e3 * Math.random()),rate:Math.random().toFixed(2)},
+            {name: "洛阳市", value: Math.round(1e3 * Math.random()),rate:Math.random().toFixed(2)},
+            {name: "济源市", value: Math.round(1e3 * Math.random()),rate:Math.random().toFixed(2)},
+            {name: "漯河市", value: Math.round(1e3 * Math.random()),rate:Math.random().toFixed(2)},
+            {name: "许昌市", value: Math.round(1e3 * Math.random()),rate:Math.random().toFixed(2)},
+            {name: "郑州市", value:Math.round(1e3 * Math.random()),rate:Math.random().toFixed(2)},
+            {name: "驻马店市", value:Math.round(1e3 * Math.random()),rate:Math.random().toFixed(2)}];
   var geoCoordMap = { // 地图数据
             "郑州市":[113.43808,34.619528],
             "安阳市":[114.336098,36.082031],
@@ -93,10 +93,11 @@ var convertData = function(data) {
     var res = [];
     for (var i = 0; i < data.length; i++) {
         var geoCoord = geoCoordMap[data[i].name];
+        var rate=Number(data[i].rate).toFixed(2)
         if (geoCoord) {
             res.push({
                 name: data[i].name,
-                value: geoCoord.concat(data[i].value),
+                value: geoCoord.concat(rate),
             });
         }
     }
@@ -115,17 +116,20 @@ var option = {
         //   return [point[0], point[1]];
         // },
         formatter: function(params) {
-            // console.log(params)
+             console.log(params)
             var tipHtml = '';
-            tipHtml = '<div style="width:200px;height:100px;background:rgba(22,80,158,0.8);border:1px solid rgba(7,166,255,0.7)">'
+            if(params.componentSubType=='map'){
+                tipHtml = '<div style="width:200px;height:100px;background:rgba(22,80,158,0.8);border:1px solid rgba(7,166,255,0.7)">'
             +'<div style="width:80%;height:40px;line-height:40px;border-bottom:2px solid rgba(7,166,255,0.7);padding:0 20px">'+'<i style="display:inline-block;width:8px;height:8px;background:#16d6ff;border-radius:40px;">'+'</i>'
             +'<span style="margin-left:10px;color:#fff;font-size:16px;">'+params.name+'</span>'+'</div>'
             +'<div style="padding:12px">'
             +'<p style="color:#fff;font-size:12px;">'+'<i style="display:inline-block;width:10px;height:10px;background:#16d6ff;border-radius:40px;margin:0 8px">'+'</i>'
-            +'无线网项目数量：'+'<span style="color:#11ee7d;margin:0 6px;">'+1+'</span>'+'个'+'</p>'
+            +'无线网项目数量：'+'<span style="color:#11ee7d;margin:0 6px;font-size:14px;">'+params.value+'</span>'+'个'+'</p>'
             +'<p style="color:#fff;font-size:12px;">'+'<i style="display:inline-block;width:10px;height:10px;background:#16d6ff;border-radius:40px;margin:0 8px">'+'</i>'
-            +'投入产出比：'+'<span style="color:#f48225;margin:0 6px;">'+2+'</span>'+'%'+'</p>'
+            +'投入产出比：'+'<span style="color:#f48225;margin:0 6px;font-size:14px;">'+params.data.rate*100+'</span>'+'%'+'</p>'
             +'</div>'+'</div>';
+            }
+            
             return tipHtml;
         }
         
@@ -143,7 +147,7 @@ var option = {
         //     color: ['#ffffff', '#E0DAFF', '#ADBFFF', '#9CB4FF', '#6A9DFF', '#3889FF']
         // }
         inRange: {
-             color: ['#E6FFFF', '#3ab8f2','#006EDD'] // 蓝绿
+             color: ['#E6FFFF', '#3ab8f2','#115dab'] // 蓝绿
         }
     },
     geo: {
@@ -176,7 +180,7 @@ var option = {
             coordinateSystem: 'geo',
             data: convertData(data),
             symbolSize: function(val) {
-                return val[2] / 80;
+                return val[2]*20 ;
             },
             label: {
                 normal: {
@@ -233,7 +237,7 @@ var option = {
                 return b.value - a.value;
             }).slice(0, 10)),
             symbolSize: function(val) {
-                return val[2] / 80;
+                return val[2]*20 ;
             },
             showEffectOn: 'render',
             rippleEffect: {

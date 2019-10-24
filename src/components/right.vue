@@ -103,10 +103,6 @@ export default {
         { value: 17, name: '建安投资' },
         { value: 23, name: '设备投资' },
         { value: 27, name: '待摊投资' }],
-      jianan: [
-        { value: 17, name: '材料费' },
-        { value: 23, name: '施工费' },
-      ],
       sumdata: [
         { value: 17, name: '建安投资' },
         { value: 23, name: '设备投资' },
@@ -224,11 +220,11 @@ export default {
     },
     drawPie(piedata) {
       var that=this;
-      var colorList = ['#006EDD', '#FF7F50', '#00d488', '#afa3f5', '#3feed4', '#f1bb4c', "rgba(250,250,250,0.5)",'#ffc257', '#3bafff', '#ffedcc','#fd6f97', '#fed4e0','#a181fc', '#e3d9fe'];
+      var colorList = ['#006EDD', '#FF7F50', '#00d488', '#afa3f5', '#3feed4', '#f1bb4c', "#6A9DFF",'#ffc257','rgba(5, 65, 110, 1)', '#3bafff', '#ffedcc','#fd6f97', '#fed4e0','#a181fc','#115dab', '#e3d9fe'];
       var option = {
         title: {
           subtext: that.pietitle,
-          x: '38%',
+          x: '40%',
           y: '42%',
           textStyle: {
             fontSize: 30,
@@ -240,6 +236,10 @@ export default {
             fontSize: 16
           },
         },
+         tooltip: {
+        trigger: 'item',
+        
+    },
         grid: {
           bottom: 150,
           left: 0,
@@ -261,7 +261,7 @@ export default {
           // 主要展示层的
           {
             radius: ['30%', '56%'],
-            center: ['47%', '50%'],
+            center: ['50%', '50%'],
             type: 'pie',
             itemStyle: {
               normal: {
@@ -273,8 +273,8 @@ export default {
             labelLine: {
               normal: {
                 show: true,
-                length: 10,
-                length2: 80,
+                length: 14,
+                length2: 90,
                 lineStyle: {
                   color: '#d3d3d3'
                 },
@@ -292,16 +292,16 @@ export default {
                   str = '{nameStyle|' + params.name + ' }' + '{rate|' + params.value + '%}';
                   return str
                 },
-                padding: [0, -80],
-                height: 50,
+                padding: [0, -96],
+                height: 30,
                 rich: {
                   nameStyle: {
-                    fontSize: 12,
+                    fontSize: 11,
                     color: "#555",
                     align: 'left'
                   },
                   rate: {
-                    fontSize: 14,
+                    fontSize: 12,
                     color: "#1ab4b8",
                     align: 'left'
                   }
@@ -313,7 +313,7 @@ export default {
           // 边框的设置
           {
             radius: ['52%', '56%'],
-            center: ['47%', '50%'],
+            center: ['50%', '50%'],
             type: 'pie',
             label: {
               normal: {
@@ -355,14 +355,18 @@ export default {
 // 处理点击事件并且跳转到相应的百度搜索页面
       this.chart.on('click', function (param) {
         var name = param.name;
-        that.pietitle=name;
-        that.pieheader=' > '+name
         if (name === '待摊投资') {
+          that.pietitle='待摊投资';
+          that.pieheader=' > '+'待摊投资'
           that.piedata=that.daitan
         }else if(name === '设备投资'){
            that.piedata=that.shebei
-        }else{
+            that.pietitle='设备投资';
+          that.pieheader=' > '+'设备投资'
+        }else if(name === '建安投资'){
            that.piedata=that.jianan
+            that.pietitle='建安投资';
+          that.pieheader=' > '+'建安投资'
         }
       });
     },
@@ -372,7 +376,7 @@ export default {
       var lineData = [18092, 20728, 24045, 28348, {        value: 32800,
         itemStyle: {
           borderType: 'dotted',
-          color: '#007d87'
+          color: '#ffdcc3'
         }
       }];
       var barData = [4600, 50000, 5500, 25000, {        value: 12500,
@@ -384,7 +388,7 @@ export default {
           },
           {
             offset: 1,
-            color: "rgba(8,228,222,0.2)"
+            color: "#ffdcc3" 
           }
           ])
         }
@@ -520,6 +524,18 @@ export default {
             data: dot
           },
           {
+            name: '投入',
+            type: 'bar',
+            barWidth: 15,
+            itemStyle: {
+              normal: {
+                barBorderRadius: 5,
+                color: 'rgb(215,215,215)'
+              }
+            },
+            data: lineData
+          },
+          {
             name: '产出',
             type: 'bar',
             barWidth: 15,
@@ -529,30 +545,13 @@ export default {
                 color: new this.$echarts.graphic.LinearGradient(
                   0, 0, 0, 1,
                   [
-                    { offset: 0, color: '#3ab8f2' },
-                    { offset: 1, color: '#006EDD' }
+                     { offset: 0, color: '#115dab' },
+                    { offset: 1, color: '#3ab8f2' }
                   ]
                 )
               }
             },
             data: barData
-          },
-          { // 背景色
-            type: 'pictorialBar',
-            stack: '总量',
-            symbol: 'fixed',
-            name: '投入',
-            symbolSize: [15, 3],
-            symbolMargin: 2,
-            symbolRepeat: 'repeat',
-            symbolBoundingData: 500000,
-            z: -10,
-            data: lineData,
-            itemStyle: {
-              normal: {
-                color: '#a5e6e6'
-              }
-            }
           },
         ]
       };
@@ -576,7 +575,7 @@ export default {
         titleArr.push(
           {
             text: item.name,
-            left: index * 40 + 24 + '%',
+            left: index * 50 + 24 + '%',
             top: '75%',
             textAlign: 'center',
             textStyle: {
@@ -607,7 +606,7 @@ export default {
               }
             },
             hoverAnimation: false,
-            center: [index * 40 + 24 + '%', '45%'],
+            center: [index * 50 + 24 + '%', '45%'],
             data: [{
               value: item.value,
               label: {

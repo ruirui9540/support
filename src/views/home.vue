@@ -2,7 +2,7 @@
   <div class="contain flexbox">
     <el-row :gutter="20">
       <el-col :span="12"><Left></Left></el-col>
-      <el-col :span="12"><Right></Right></el-col>
+      <el-col :span="12"><Right1></Right1></el-col>
     </el-row>
   </div>
 </template>
@@ -10,10 +10,9 @@
 <script>
 import Vue from 'vue'
 import Left from '../components/left'
-import Right from '../components/right1'
+import Right1 from '../components/right1'
 export default {
   name: 'home',
-  components: {},
   data() {
     return {
       newsList: ''
@@ -21,7 +20,7 @@ export default {
   },
   components: {
     Left: Left,
-    Right: Right
+    Right1: Right1
   },
   created() {},
   methods: {
