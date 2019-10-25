@@ -100,13 +100,13 @@ export default {
       show: false,
       title: '无线网',
       piedata: [
-        { value: 17, name: '建安投资' },
-        { value: 23, name: '设备投资' },
-        { value: 27, name: '待摊投资' }],
+        { value: 30, name: '建安投资' },
+        { value: 50, name: '设备投资' },
+        { value: 20, name: '待摊投资' }],
       sumdata: [
-        { value: 17, name: '建安投资' },
-        { value: 23, name: '设备投资' },
-        { value: 27, name: '待摊投资' }],
+        { value: 30, name: '建安投资' },
+        { value: 50, name: '设备投资' },
+        { value: 20, name: '待摊投资' }],
       jianan: [
         { value: 17, name: '材料费' },
         { value: 23, name: '施工费' },
@@ -136,7 +136,29 @@ export default {
         { value: 27, name: '无线网配套及其他' },
       ],
       pietitle:'总投入',
-      pieheader:''
+      pieheader:'',
+      touruNum:[177133, 169043, 156670, 123908, {        value: 61954,
+        itemStyle: {
+          borderType: 'dotted',
+          color: '#ffdcc3'
+        }
+      }],
+      chanchu:[96083, 246140, 318999, 408068, {value: 521779.48,
+        itemStyle: {
+          borderType: 'dotted',
+          barBorderColor:'#ffdcc3',
+          color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+            offset: 0.4,
+            color: "#FF7F50"
+          },
+          {
+            offset: 1,
+            color: "#ffdcc3" 
+          }
+          ])
+        }
+      }],
+      sumNum:0
     }
   },
   created() { },
@@ -180,8 +202,20 @@ export default {
     open() {
       this.show = true;
     },
-    close() {
-      this.show = false
+    close(e) {
+      this.show = false;
+      this.sumNum=e
+      var len=this.piedata;
+      //0 建安
+      this.$set(this.piedata[0], 'value', Number(e*this.randomFrom(25,30)/100).toFixed(2))
+      //1 设备
+      this.$set(this.piedata[1], 'value', Number(e*this.randomFrom(55,65)/100).toFixed(2))
+     var val=100-Number(this.piedata[0].value)-Number(this.piedata[1].value);
+      this.$set(this.piedata[2], 'value', (e*val/100).toFixed(2))
+      console.log(this.touruNum)
+      this.$set(this.touruNum[4], 'value', e*10000)
+      this.$set(this.chanchu[4], 'value', this.randomFrom(this.chanchu[3]*0.8,this.chanchu[3]*1.5))
+      this.drawLine()
     },
     change(val) {
       const allValues = this.options.map(item => {
@@ -220,11 +254,11 @@ export default {
     },
     drawPie(piedata) {
       var that=this;
-      var colorList = ['#6990D5', '#FF7F50', '#00d488', '#afa3f5', '#3feed4', '#f1bb4c', "#6A9DFF",'#ffc257','rgba(5, 65, 110, 1)', '#3bafff', '#ffedcc','#fd6f97', '#fed4e0','#a181fc','#115dab', '#e3d9fe'];
+      var colorList = ['#6990D5', '#FF7F50', '#3feed4', '#00d488', '#afa3f5', '#f1bb4c', "#6A9DFF",'#ffc257','rgba(5, 65, 110, 1)', '#3bafff', '#ffedcc','#fd6f97', '#fed4e0','#a181fc','#115dab', '#e3d9fe'];
       var option = {
         title: {
           subtext: that.pietitle,
-          x: '40%',
+          x: '42%',
           y: '42%',
           textStyle: {
             fontSize: 30,
@@ -373,26 +407,8 @@ export default {
     drawLine() {
       var category = ['2015', '2016', '2017', '2018', '2019'];
       var dottedBase = [];
-      var lineData = [177133, 169043, 156670, 123908, {        value: 61954,
-        itemStyle: {
-          borderType: 'dotted',
-          color: '#ffdcc3'
-        }
-      }];
-      var barData = [96083, 246140, 318999, 408068, {        value: 521779.48,
-        itemStyle: {
-          borderType: 'dotted',
-          color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-            offset: 0.4,
-            color: "#FF7F50"
-          },
-          {
-            offset: 1,
-            color: "#ffdcc3" 
-          }
-          ])
-        }
-      }];
+      var lineData = this.touruNum;
+      var barData = this.chanchu
       var rateData = []; var dot = []
       for (var i = 0; i < 5; i++) {
         var bar = barData[i];
@@ -494,7 +510,7 @@ export default {
             yAxisIndex: 1,
             itemStyle: {
               normal: {
-                color: '#00d488',
+                color: '#3feed4',
                 lineStyle: {   //系列级个性化折线样式
                   width: 2,
                   type: 'solid'
@@ -514,7 +530,7 @@ export default {
             yAxisIndex: 1,
             itemStyle: {
               normal: {
-                color: '#00d488',
+                color: '#3feed4',
                 lineStyle: {   //系列级个性化折线样式
                   width: 2,
                   type: 'dashed'
@@ -562,10 +578,10 @@ export default {
     drawPie1() {
       var data = [
         {
-          name: '回本周期',
-          value: 54
+          name: '回本周期(月)',
+          value: 36
         }, {
-          name: 'APPU值',
+          name: 'APPU值(亿元)',
           value: 44
         }]
 
@@ -645,7 +661,10 @@ export default {
       var chart = this.$echarts.init(document.getElementById('pie1'));//获取容器元素
       window.onresize = chart.resize;
       chart.setOption(option);
-    }
+    },
+    randomFrom(lowerValue,upperValue){
+      return Math.floor(Math.random() * (upperValue - lowerValue + 1) + lowerValue);
+      }
   }
 }
 </script>

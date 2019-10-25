@@ -26,6 +26,15 @@ export default new Router({
             title: 'support',
             isKeepAlive: false,
         },
+    },
+    {
+        path: '/index1',
+        name: 'index1',
+        component: () => import('../views/index1.vue'),
+        meta: {
+            title: '中国电信河南公司投资收益评估系统',
+            isKeepAlive: false,
+        },
     }], 
 });
 // , {

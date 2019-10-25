@@ -45,24 +45,24 @@ export default {
       }
     },
     drawMap(){
-var data = [{name: "安阳市", value: Math.round(1e3 * Math.random()),rate:92},
-            {name: "新乡市", value: Math.round(1e3 * Math.random()),rate:91},
-            {name: "濮阳市", value: Math.round(1e3 * Math.random()),rate:183},
-            {name: "焦作市", value: Math.round(1e3 * Math.random()),rate:155},
-            {name: "鹤壁市", value: Math.round(1e3 * Math.random()),rate:108},
-            {name: "三门峡市", value: Math.round(1e3 * Math.random()),rate:83},
-            {name: "信阳市", value: Math.round(1e3 * Math.random()),rate:98},
-            {name: "南阳市", value: Math.round(1e3 * Math.random()),rate:106},
-            {name: "周口市", value: Math.round(1e3 * Math.random()),rate:158},
-            {name: "商丘市", value: Math.round(1e3 * Math.random()),rate:130},
-            {name: "平顶山市", value: Math.round(1e3 * Math.random()),rate:176},
-            {name: "开封市", value:Math.round(1e3 * Math.random()),rate:102},
-            {name: "洛阳市", value: Math.round(1e3 * Math.random()),rate:122},
-            {name: "济源市", value: Math.round(1e3 * Math.random()),rate:111},
-            {name: "漯河市", value: Math.round(1e3 * Math.random()),rate:153},
-            {name: "许昌市", value: Math.round(1e3 * Math.random()),rate:140},
-            {name: "郑州市", value:Math.round(1e3 * Math.random()),rate:190},
-            {name: "驻马店市", value:Math.round(1e3 * Math.random()),rate:192}];
+var data = [{name: "安阳市", rate: Math.round(1e3 * Math.random()),value:92},
+            {name: "新乡市", rate: Math.round(1e3 * Math.random()),value:91},
+            {name: "濮阳市", rate: Math.round(1e3 * Math.random()),value:183},
+            {name: "焦作市", rate: Math.round(1e3 * Math.random()),value:155},
+            {name: "鹤壁市", rate: Math.round(1e3 * Math.random()),value:108},
+            {name: "三门峡市", rate: Math.round(1e3 * Math.random()),value:83},
+            {name: "信阳市", rate: Math.round(1e3 * Math.random()),value:98},
+            {name: "南阳市", rate: Math.round(1e3 * Math.random()),value:106},
+            {name: "周口市", rate: Math.round(1e3 * Math.random()),value:158},
+            {name: "商丘市", rate: Math.round(1e3 * Math.random()),value:130},
+            {name: "平顶山市", rate: Math.round(1e3 * Math.random()),value:176},
+            {name: "开封市", rate:Math.round(1e3 * Math.random()),value:102},
+            {name: "洛阳市", rate: Math.round(1e3 * Math.random()),value:122},
+            {name: "济源市", rate: Math.round(1e3 * Math.random()),value:111},
+            {name: "漯河市", rate: Math.round(1e3 * Math.random()),value:153},
+            {name: "许昌市", rate: Math.round(1e3 * Math.random()),value:140},
+            {name: "郑州市", rate:Math.round(1e3 * Math.random()),value:190},
+            {name: "驻马店市", rate:Math.round(1e3 * Math.random()),value:192}];
   var geoCoordMap = { // 地图数据
             "郑州市":[113.43808,34.619528],
             "安阳市":[114.336098,36.082031],
@@ -83,9 +83,12 @@ var data = [{name: "安阳市", value: Math.round(1e3 * Math.random()),rate:92},
             "驻马店市":[114.048353,32.963372],
             "信阳市":[114.963906,32.215873]
         };
-    var mapName = 'henan'
-var max = 480,
-    min = 9; // todo 
+    var mapName = 'henan';
+    // 最大值 4
+var max=Math.max.apply(Math,data.map(item => { return item.value }))+20
+ 
+// 最小值 1
+var  min=Math.min.apply(Math,data.map(item => { return item.value }))-20
 var maxSize4Pin = 100,
     minSize4Pin = 20;
 
@@ -97,7 +100,7 @@ var convertData = function(data) {
         if (geoCoord) {
             res.push({
                 name: data[i].name,
-                value: geoCoord.concat(rate),
+                value: geoCoord.concat(rate).concat(data[i].value),
             });
         }
     }
@@ -117,19 +120,23 @@ var option = {
         // },
         formatter: function(params) {
              console.log(params)
-            var tipHtml = '';
+            var tipHtml = '';var data='',rate=''
             if(params.componentSubType=='map'){
-                tipHtml = '<div style="width:200px;height:100px;background:rgba(22,80,158,0.8);border:1px solid rgba(7,166,255,0.7)">'
+                rate=params.data.value;
+                data=params.data.rate;
+            }else{
+                data=params.data.value[2]
+                rate=params.data.value[3]
+            }
+            tipHtml = '<div style="width:200px;height:100px;background:rgba(22,80,158,0.8);border:1px solid rgba(7,166,255,0.7)">'
             +'<div style="width:80%;height:40px;line-height:40px;border-bottom:2px solid rgba(7,166,255,0.7);padding:0 20px">'+'<i style="display:inline-block;width:8px;height:8px;background:#16d6ff;border-radius:40px;">'+'</i>'
             +'<span style="margin-left:10px;color:#fff;font-size:16px;">'+params.name+'</span>'+'</div>'
             +'<div style="padding:12px">'
             +'<p style="color:#fff;font-size:12px;">'+'<i style="display:inline-block;width:10px;height:10px;background:#16d6ff;border-radius:40px;margin:0 8px">'+'</i>'
-            +'无线网项目数量：'+'<span style="color:#11ee7d;margin:0 6px;font-size:14px;">'+params.value+'</span>'+'个'+'</p>'
+            +'无线网项目数量：'+'<span style="color:#f48225;margin:0 6px;font-size:14px;">'+data+'</span>'+'个'+'</p>'
             +'<p style="color:#fff;font-size:12px;">'+'<i style="display:inline-block;width:10px;height:10px;background:#16d6ff;border-radius:40px;margin:0 8px">'+'</i>'
-            +'投入产出比：'+'<span style="color:#f48225;margin:0 6px;font-size:14px;">'+params.data.rate+'</span>'+'%'+'</p>'
+            +'投入产出比：'+'<span style="color:#11ee7d;margin:0 6px;font-size:14px;">'+rate+'</span>'+'%'+'</p>'
             +'</div>'+'</div>';
-            }
-            
             return tipHtml;
         }
         
@@ -137,12 +144,15 @@ var option = {
    
     visualMap: {
         show: true,
-        min: 0,
-        max: 2500,
+        min: min,
+        max: max,
         left: '0',
         top: 'bottom',
         calculable: true,
         seriesIndex: [1],
+        text:['投入产出比(%)', ''],
+         textGap:16,
+         align:'left',
         // inRange: {
         //     color: ['#ffffff', '#E0DAFF', '#ADBFFF', '#9CB4FF', '#6A9DFF', '#3889FF']
         // }
@@ -175,12 +185,12 @@ var option = {
        layoutCenter: ['40%', '50%'],
     },
     series: [{
-            name: '散点',
+            name: '无线网投入产出比',
             type: 'scatter',
             coordinateSystem: 'geo',
             data: convertData(data),
             symbolSize: function(val) {
-                return val[2]/50 ;
+                return val[2]/60 ;
             },
             label: {
                 normal: {
@@ -230,14 +240,14 @@ var option = {
             data: data
         },
         {
-            name: 'Top 5',
+            name: '无线网投入产出比',
             type: 'effectScatter',
             coordinateSystem: 'geo',
             data: convertData(data.sort(function(a, b) {
                 return b.value - a.value;
             }).slice(0, 10)),
             symbolSize: function(val) {
-                return val[2]/50 ;
+                return val[2]/60 ;
             },
             showEffectOn: 'render',
             rippleEffect: {
@@ -286,6 +296,8 @@ var option = {
     width: 100%;
     height:99%;
   }
- 
+ #map{
+     position: relative;
+ }
   
 </style>

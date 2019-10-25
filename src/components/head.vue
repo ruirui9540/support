@@ -54,7 +54,7 @@ header{
 	position: relative;
 	background-color: @color;
 	box-shadow: inset 0px -1px 0px 0px 
-		rgba(5, 65, 110, 0.7);
+		rgba(85, 154, 231, 0.7);
 	color: #fff;
 	padding:0 20px;
 	line-height: 60px;
@@ -62,7 +62,6 @@ header{
 		.admin{
 			font-size:14px;
 		}
-
 }
 header>div:nth-child(1){
 	color: #ffffff;
