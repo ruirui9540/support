@@ -21,7 +21,7 @@
         </el-col>
       <el-col class="line" :span="3">亿元</el-col>
     </el-form-item>
-    <Add :touru="form.touru" :inputIdx='0' @cc='cc' v-on:sum.sync="form.lteRate1" v-show='addshow[0]'></Add>
+    <Add :touru="form.touru" :inputIdx='0' :sumsync.sync='form.lteRate1'  v-show='addshow[0]'></Add>
     <el-form-item label="LTE主设备2.1G" :label-width="formLabelWidth">
        <i :class="[icon[1],col]" @click='morecontent(1)'></i>
        <el-col :span="7">
@@ -33,7 +33,8 @@
         </el-col>
       <el-col class="line" :span="3">亿元</el-col>
     </el-form-item>
-     <Add :touru="form.touru" :inputIdx='1' @cc='cc' :sum.sync="form.lteRate2" v-show='addshow[1]'></Add>
+     <Add :touru="form.touru" :inputIdx='1' :sumsync.sync='form.lteRate2'  v-show='addshow[1]'></Add>
+     <!-- <Add :touru="form.touru" :inputIdx='1' @sum='cc'  v-show='addshow[1]'></Add> -->
     <el-form-item label="LTE主设备800M" :label-width="formLabelWidth">
          <i :class="[icon[2],col]" @click='morecontent(2)'></i>
        <el-col :span="7">
@@ -45,7 +46,8 @@
         </el-col>
       <el-col class="line" :span="3">亿元</el-col>
     </el-form-item>
-     <Add :touru="form.touru" :inputIdx='2' @cc='cc' :sum.sync="form.lteRate3" v-show='addshow[2]'></Add>
+     <!-- <Add :touru="form.touru" :inputIdx='2' @sum='cc'  v-show='addshow[2]'></Add> -->
+       <Add :touru="form.touru" :inputIdx='2' :sumsync.sync='form.lteRate3'  v-show='addshow[2]'></Add>
     <el-form-item label="室内分布系统" :label-width="formLabelWidth">
          <i :class="[icon[3],col]" @click='morecontent(3)'></i>
       <el-col :span="7">
@@ -57,7 +59,8 @@
         </el-col>
       <el-col class="line" :span="3">亿元</el-col>
     </el-form-item>
-     <Add :touru="form.touru" :inputIdx='3' @cc='cc' :sum.sync="form.lteRate4" v-show='addshow[3]'></Add>
+     <!-- <Add :touru="form.touru" :inputIdx='3' @sum='cc'  v-show='addshow[3]'></Add> -->
+        <Add :touru="form.touru" :inputIdx='3' :sumsync.sync='form.lteRate4'  v-show='addshow[3]'></Add>
     <el-form-item label="无线网配套及其他" :label-width="formLabelWidth">
       <i :class="[icon[4],col]" @click='morecontent(4)'></i>
        <el-col :span="7">
@@ -69,7 +72,8 @@
         </el-col>
       <el-col class="line" :span="3">亿元</el-col>
     </el-form-item>
-     <Add :touru="form.touru" :inputIdx='4' @cc='cc' :sum.sync="form.lteRate5" v-show='addshow[4]'></Add>
+     <!-- <Add :touru="form.touru" :inputIdx='4' @sum='cc'  v-show='addshow[4]'></Add> -->
+      <Add :touru="form.touru" :inputIdx='4' :sumsync.sync='form.lteRate5'  v-show='addshow[4]'></Add>
   </el-form>
   <div slot="footer" class="dialog-footer">
     <el-button @click="dialogFormVisible = false" size="small">取 消</el-button>
@@ -109,7 +113,8 @@ export default {
         addshow:[false,false,false,false,false],
         sumrate:0,
         sum:[],
-       // change: JSON.parse(localStorage.getItem('hou'))
+       // change: JSON.parse(localStorage.getItem('hou'))，
+       sumsync:{}
     }
   },
    components: {
@@ -132,13 +137,6 @@ export default {
           this.form.lteValue3=this.form.touru*(this.form.lteRate3/100);
           this.form.lteValue4=this.form.touru*(this.form.lteRate4/100);
           this.form.lteValue5=this.form.touru*(this.form.lteRate5/100);
-          // for(var i=0;i<5;i++){
-          //   var item={};
-          //   var idx=i+1
-          //   item.sum=this.form['lteRate'+idx];
-          //   item.index=i;
-          //   this.sumrate.push(item)
-          // }
        });
   },
   watch: {
@@ -167,12 +165,14 @@ export default {
       },
       deep: true //对象的深度验证
     },
-    // change:{
-    //   handler: function (val) {
-    //     alert(val)
-    //   },
-    //   deep: true //对象的深度验证
-    // }
+    sumsync: {
+      handler(val) {
+        console.log(val)
+        //var idx=val.index+1
+      this.sumsync=val
+      },
+      deep: true,
+    },
   },
   computed: {
     

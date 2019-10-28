@@ -52,7 +52,7 @@
           </el-row>
            </div>
            <el-divider v-if='kuorongData.length>0'></el-divider>
-            <span>更新改造<i :class="[icon1,col1,col]" @click='add1'></i><i :class="[icon,col1,col]" @click='remove1'></i></span>
+            <span>更新改造<i :class="[icon1,col1,col]" @click='add2'></i><i :class="[icon,col1,col]" @click='remove2'></i></span>
            <el-divider></el-divider>
            <div v-for='(col,i) in gengxinData' :key="'info3-'+i">
             <el-row style='line-height: 30px;text-align: center;margin-bottom:6px;' :gutter="20" >
@@ -110,34 +110,60 @@ export default {
         kuorongData:[{rate:0,value:0}],
         gengxin:[''],
         gengxinData:[{rate:0,value:0}],
-        sumrate:this.sum
     }
   },
-  props:['touru','inputIdx','sum'],
+  props:['touru','inputIdx','sumsync'],
   created() {
-    console.log(this.sum)
+    console.log(this.sumsync)
   },
   watch: {
     $route(to, from) {
       this.page = to.path
     },
+    sumsync:{
+      handler: function (val) {
+      this.$emit('update:sumsync', val);
+      },
+      deep: true //对象的深度验证
+    },
      titleData:{
       handler: function (val) {
-       this.watchdata()
+        this.titleData.forEach((item) => {
+          item.value=item.rate/100*this.touru
+        });
       },
       deep: true //对象的深度验证
     },
     kuorongData:{
       handler: function (val) {
-        this.watchdata()
+        this.kuorongData.forEach((item) => {
+         item.value=item.rate/100*this.touru
+        });
       },
       deep: true //对象的深度验证
     },
     gengxinData:{
       handler: function (val) {
-        this.watchdata()
+       this.gengxinData.forEach((item) => {
+          item.value=item.rate/100*this.touru
+        });
       },
       deep: true //对象的深度验证
+    }
+  },
+  computed:{
+    sumsync(){
+         let sum = 0;
+         this.titleData.forEach((item) => {
+          sum += Number(item.rate);
+        });
+        this.kuorongData.forEach((item) => {
+          sum += Number(item.rate);
+        });
+        this.gengxinData.forEach((item) => {
+          sum += Number(item.rate);
+        });
+        return sum
     }
   },
   methods: {
@@ -160,7 +186,7 @@ export default {
       this.gengxinData.pop()
     },
     onBlur(){
-        this.watchdata()
+       // this.watchdata()
     },
     changeData(data,select){
         if(data.length<3){
@@ -170,32 +196,6 @@ export default {
                 alert('选项已经够了，不需要在添加了哦!')
               }
     },
-    watchdata(){
-       var v=this.titleData; let sum = 0;
-        for(var i=0;i<v.length;i++){
-          this.titleData[i].value=v[i].rate/100*this.touru
-          sum += Number(v[i].rate);
-        }
-        this.kuorongData.forEach((item) => {
-          sum += Number(item.rate);
-        });
-        this.gengxinData.forEach((item) => {
-          sum += Number(item.rate);
-        });
-        this.sumrate=sum;
-        //this.$emit('updata:sum', sum ); //触发showbox方法，true为向父组件传递的数据
-        console.log(this.inputIdx)
-        var s={
-          sum:sum,
-          index:this.inputIdx
-        }
-        console.log(s)
-        this.$emit('cc', s ); //触发showbox方法，true为向父组件传递的数据
-    },
-    dd(){
-      alert(3)
-      this.$emit('cc', 3 ); //触发showbox方法，true为向父组件传递的数据
-    }
   }
 }
 </script>

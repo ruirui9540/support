@@ -100,13 +100,13 @@ export default {
       show: false,
       title: '无线网',
       piedata: [
-        { value: 30, name: '建安投资' },
-        { value: 50, name: '设备投资' },
-        { value: 20, name: '待摊投资' }],
+        { value: 1, name: '建安投资' },
+        { value: 3, name: '设备投资' },
+        { value: 2.1954, name: '待摊投资' }],
       sumdata: [
-        { value: 30, name: '建安投资' },
-        { value: 50, name: '设备投资' },
-        { value: 20, name: '待摊投资' }],
+        { value: 1, name: '建安投资' },
+        { value: 3, name: '设备投资' },
+        { value: 2.1954, name: '待摊投资' }],
       jianan: [
         { value: 17, name: '材料费' },
         { value: 23, name: '施工费' },
@@ -158,7 +158,7 @@ export default {
           ])
         }
       }],
-      sumNum:0
+      sumNum:100
     }
   },
   created() { },
@@ -207,10 +207,10 @@ export default {
       this.sumNum=e
       var len=this.piedata;
       //0 建安
-      this.$set(this.piedata[0], 'value', Number(e*this.randomFrom(25,30)/100).toFixed(2))
+      this.$set(this.piedata[0], 'value', Number(e*this.randomFrom(20,30)/100).toFixed(2))
       //1 设备
-      this.$set(this.piedata[1], 'value', Number(e*this.randomFrom(55,65)/100).toFixed(2))
-     var val=100-Number(this.piedata[0].value)-Number(this.piedata[1].value);
+      this.$set(this.piedata[1], 'value', Number(e*this.randomFrom(50,55)/100).toFixed(2))
+     var val=e-Number(this.piedata[0].value)-Number(this.piedata[1].value);
       this.$set(this.piedata[2], 'value', (e*val/100).toFixed(2))
       console.log(this.touruNum)
       this.$set(this.touruNum[4], 'value', e*10000)
@@ -323,7 +323,8 @@ export default {
               normal: {
                 formatter: function (params) {
                   var str = '';
-                  str = '{nameStyle|' + params.name + ' }' + '{rate|' + params.value + '%}';
+                  var rate=(Number(params.value)/Number(that.sumNum))*100
+                  str = '{nameStyle|' + params.name + ' }' + '{rate|' + params.value + '亿}';
                   return str
                 },
                 padding: [0, -96],
