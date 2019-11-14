@@ -1,85 +1,36 @@
 <template>
   <div>
     <el-dialog :title="title" :visible.sync="dialogFormVisible" 
-            @close="$emit('update:show', false)" width='40%'
+            @close="$emit('update:show', false)" width='50%'
             :show="show">
-  <el-form :model="form">
-    <el-form-item label="总投入" :label-width="formLabelWidth">
-      <el-col :span="16">
-          <el-input v-model="form.touru" autocomplete="off" size='small' ></el-input>
-        </el-col>
-      <el-col class="line" :span="3">亿元</el-col>
-    </el-form-item>
-    <el-form-item label="LTE主设备1.8G" :label-width="formLabelWidth">
-      <i :class="[icon[0],col]" @click='morecontent(0)'></i>
-       <el-col :span="7">
-          <el-input v-model="form.lteRate1" autocomplete="off" size='small' ></el-input>
-        </el-col>
-        <el-col class="line" :span="2">%</el-col>
-        <el-col :span="7">
-          <el-input v-model="form.lteValue1" :disabled="true" autocomplete="off" size='small'></el-input>
-        </el-col>
-      <el-col class="line" :span="3">亿元</el-col>
-    </el-form-item>
-    <Add :touru="form.touru" :inputIdx='0' :sumsync.sync='form.lteRate1'  v-show='addshow[0]'></Add>
-    <el-form-item label="LTE主设备2.1G" :label-width="formLabelWidth">
-       <i :class="[icon[1],col]" @click='morecontent(1)'></i>
-       <el-col :span="7">
-          <el-input v-model="form.lteRate2" autocomplete="off" size='small' ></el-input>
-        </el-col>
-        <el-col class="line" :span="2">%</el-col>
-        <el-col :span="7">
-          <el-input v-model="form.lteValue2" :disabled="true" autocomplete="off" size='small'></el-input>
-        </el-col>
-      <el-col class="line" :span="3">亿元</el-col>
-    </el-form-item>
-     <Add :touru="form.touru" :inputIdx='1' :sumsync.sync='form.lteRate2'  v-show='addshow[1]'></Add>
-     <!-- <Add :touru="form.touru" :inputIdx='1' @sum='cc'  v-show='addshow[1]'></Add> -->
-    <el-form-item label="LTE主设备800M" :label-width="formLabelWidth">
-         <i :class="[icon[2],col]" @click='morecontent(2)'></i>
-       <el-col :span="7">
-          <el-input v-model="form.lteRate3" autocomplete="off" size='small' ></el-input>
-        </el-col>
-        <el-col class="line" :span="2">%</el-col>
-        <el-col :span="7">
-          <el-input v-model="form.lteValue3" :disabled="true" autocomplete="off" size='small'></el-input>
-        </el-col>
-      <el-col class="line" :span="3">亿元</el-col>
-    </el-form-item>
-     <!-- <Add :touru="form.touru" :inputIdx='2' @sum='cc'  v-show='addshow[2]'></Add> -->
-       <Add :touru="form.touru" :inputIdx='2' :sumsync.sync='form.lteRate3'  v-show='addshow[2]'></Add>
-    <el-form-item label="室内分布系统" :label-width="formLabelWidth">
-         <i :class="[icon[3],col]" @click='morecontent(3)'></i>
-      <el-col :span="7">
-          <el-input v-model="form.lteRate4" autocomplete="off" size='small' ></el-input>
-        </el-col>
-        <el-col class="line" :span="2">%</el-col>
-        <el-col :span="7">
-          <el-input v-model="form.lteValue4" :disabled="true" autocomplete="off" size='small'></el-input>
-        </el-col>
-      <el-col class="line" :span="3">亿元</el-col>
-    </el-form-item>
-     <!-- <Add :touru="form.touru" :inputIdx='3' @sum='cc'  v-show='addshow[3]'></Add> -->
-        <Add :touru="form.touru" :inputIdx='3' :sumsync.sync='form.lteRate4'  v-show='addshow[3]'></Add>
-    <el-form-item label="无线网配套及其他" :label-width="formLabelWidth">
-      <i :class="[icon[4],col]" @click='morecontent(4)'></i>
-       <el-col :span="7">
-          <el-input v-model="form.lteRate5" autocomplete="off" size='small' ></el-input>
-        </el-col>
-        <el-col class="line" :span="2">%</el-col>
-        <el-col :span="7">
-          <el-input v-model="form.lteValue5" :disabled="true" autocomplete="off" size='small'></el-input>
-        </el-col>
-      <el-col class="line" :span="3">亿元</el-col>
-    </el-form-item>
-     <!-- <Add :touru="form.touru" :inputIdx='4' @sum='cc'  v-show='addshow[4]'></Add> -->
-      <Add :touru="form.touru" :inputIdx='4' :sumsync.sync='form.lteRate5'  v-show='addshow[4]'></Add>
-  </el-form>
-  <div slot="footer" class="dialog-footer">
-    <el-button @click="dialogFormVisible = false" size="small">取 消</el-button>
-    <el-button type="primary" @click="onsubmit" size='small'>确 定</el-button>
-  </div>
-</el-dialog>
+      <el-form :model="form">
+        <el-form-item label="总投入" :label-width="formLabelWidth">
+          <el-col :span="7">
+              <el-input  v-model="form.touru" autocomplete="off" size='small' ></el-input>
+            </el-col>
+          <el-col class="line" :span="3">亿元</el-col>
+          <span>剩余: <span class='text-color'>{{form.surplus}}</span>亿元</span>
+        </el-form-item>
+        <div v-for='(item,i) in form.formData' :key='i+"form"'>
+            <el-form-item :label="item.label" :label-width="formLabelWidth">
+              <i :class="[item.icon,col]" @click='morecontent(item)'></i>
+              <el-col :span="7">
+                  <el-input type="number" v-model="item.rate" @blur='rateBlur(item)' autocomplete="off" size='small'></el-input>
+                </el-col>
+                <el-col class="line" :span="2">%</el-col>
+                <el-col :span="7">
+                  <el-input type="number" v-model="item.value" @blur='valueBlur(item)'  autocomplete="off" size='small'></el-input>
+                </el-col>
+              <el-col class="line" :span="3">亿元</el-col>
+          </el-form-item>
+          <Add :touru="form.touru" :inputIdx='i' :sumsync.sync='item.rate'  v-show='item.show'></Add>
+        </div>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false" size="small">取 消</el-button>
+        <el-button type="primary" @click="onsubmit" size='small'>确 定</el-button>
+      </div>
+    </el-dialog>
 
   </div>
 </template>
@@ -94,27 +45,32 @@ export default {
       page: this.$route.path,
       dialogFormVisible: this.show,
        form: {
-          touru:'6.1954',
-          lteRate1:'15',
-          lteValue1:'15',
-          lteRate2:'15',
-          lteValue2:'15',
-          lteRate3:'38',
-          lteValue3:'38',
-          lteRate4:'12',
-          lteValue4:'12',
-          lteRate5:'20',
-          lteValue5:'20',
+          touru:6.1954,
+          surplus:0.00,
+          formData:[
+         {
+           label:'LTE主设备1.8G',rate:15,icon:'el-icon-circle-plus-outline',show:false,value:0.92931
+         },
+         {
+           label:'LTE主设备2.1G',rate:15,icon:'el-icon-circle-plus-outline',show:false,value:0.92931
+         },
+         {
+           label:'LTE主设备800M',rate:38,icon:'el-icon-circle-plus-outline',show:false,value:2.35425200
+         },
+         {
+           label:'室内分布系统',rate:12,icon:'el-icon-circle-plus-outline',show:false,value:0.743448
+         },
+         {
+           label:'无线网配套及其他',rate:20,icon:'el-icon-circle-plus-outline',show:false,value:1.239080000
+         },
+       ]
         },
         formLabelWidth: '160px',
-        icon:['el-icon-circle-plus-outline','el-icon-circle-plus-outline','el-icon-circle-plus-outline','el-icon-circle-plus-outline','el-icon-circle-plus-outline'],
-        icon1:'el-icon-circle-plus-outline',
         col:'col',
-        addshow:[false,false,false,false,false],
         sumrate:0,
         sum:[],
-       // change: JSON.parse(localStorage.getItem('hou'))，
-       sumsync:{}
+       sumsync:{},
+       
     }
   },
    components: {
@@ -132,11 +88,7 @@ export default {
   },
   created() { 
     this.$nextTick(() => {
-          this.form.lteValue1=this.form.touru*(this.form.lteRate1/100);
-          this.form.lteValue2=this.form.touru*(this.form.lteRate2/100);
-          this.form.lteValue3=this.form.touru*(this.form.lteRate3/100);
-          this.form.lteValue4=this.form.touru*(this.form.lteRate4/100);
-          this.form.lteValue5=this.form.touru*(this.form.lteRate5/100);
+         //console.log(this.$commonJS.test() )
        });
   },
   watch: {
@@ -147,29 +99,23 @@ export default {
       this.dialogFormVisible = this.show;
     },
     // 'form.touru':function(val){
-    //   this.form.lteValue1=val*(this.form.lteRate1/100);
-    //   this.form.lteValue2=val*(this.form.lteRate2/100);
-    //   this.form.lteValue3=val*(this.form.lteRate3/100);
-    //   this.form.lteValue4=val*(this.form.lteRate4/100);
-    //   this.form.lteValue5=val*(this.form.lteRate5/100)
     // },
      form: {
       handler: function (val) {
-        console.log(val)
         this.touru=val.touru;
-        this.form.lteValue1=val.touru*(val.lteRate1/100);
-        this.form.lteValue2=val.touru*(val.lteRate2/100);
-        this.form.lteValue3=val.touru*(val.lteRate3/100);
-        this.form.lteValue4=val.touru*(val.lteRate4/100);
-        this.form.lteValue5=val.touru*(val.lteRate5/100);
+        var sum=0
+        val.formData.forEach((item) => {
+          item.value=Number(val.touru)*Number(item.rate)/100
+          sum+=Number(item.rate)/100
+        });
+        this.form.surplus=(Number(val.touru)*(1-sum)).toFixed(2)
       },
       deep: true //对象的深度验证
     },
     sumsync: {
       handler(val) {
         console.log(val)
-        //var idx=val.index+1
-      this.sumsync=val
+        this.sumsync=val
       },
       deep: true,
     },
@@ -191,28 +137,26 @@ export default {
       var idx=e.index+1
       this.form['lteRate'+idx]=e.sum
     },
-    morecontent(idx){
+    morecontent(item){
       var that=this;
-      if(this.icon[idx]==='el-icon-remove-outline'){
-        this.$set(this.icon,idx,'el-icon-circle-plus-outline')
+      if(item.icon==='el-icon-remove-outline'){
+        item.icon='el-icon-circle-plus-outline'
       }else{
-        this.$set(this.icon,idx,'el-icon-remove-outline')
+        item.icon='el-icon-remove-outline'
       }
-       this.$set(this.addshow,idx,!this.addshow[idx])
+      item.show=!item.show
     },
     onsubmit(){
-      var val=this.form;
-       var num=Number(val.lteRate1)+Number(val.lteRate2)+Number(val.lteRate3)+Number(val.lteRate4)+Number(val.lteRate5)
-      if(num!=100){
-           this.$message({
-            message: '各项比例相加不等于100哦！',
-            type: 'warning'
-          });
-          return
-        }
         this.dialogFormVisible = false;
         this.$emit('close',this.form.touru)
         
+    },
+    valueBlur(item){
+      item.rate=item.value/Number(this.form.touru)*100
+      
+    },
+    rateBlur(item){
+      item.value=Number(this.form.touru)*item.rate/100
     }
   }
 }
@@ -249,5 +193,11 @@ margin-bottom:10px;
  }
  .col1{
    margin-left:20px;
+ }
+ .text-color{
+   color:#fc6e09;
+   font-size: 16px;
+   font-weight: bold;
+   margin:0 5px;
  }
 </style>

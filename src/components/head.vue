@@ -1,14 +1,15 @@
 <template>
   <div>
     <header class='flexbox'>
-		<div class='flex'>中国电信河南公司投资收益评估系统</div>
-    <!-- <div class='flex caidan'>
-      <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="用户管理" name="/">标签一</el-tab-pane>
-        <el-tab-pane label="配置管理" name="/home">标签二</el-tab-pane>
-      </el-tabs>
-    </div> -->
-		<div class='admin'>欢迎您，admin</div>
+      <i class="el-icon-s-grid menumedia" @click="changeMenu"></i>
+      <div class='flex sizetext'>中国电信河南公司投资收益评估系统</div>
+      <!-- <div class='flex caidan'>
+        <el-tabs v-model="activeName" @tab-click="handleClick">
+          <el-tab-pane label="用户管理" name="/">标签一</el-tab-pane>
+          <el-tab-pane label="配置管理" name="/home">标签二</el-tab-pane>
+        </el-tabs>
+      </div> -->
+      <div class='admin'>欢迎您，admin</div>
 	</header>
   </div>
 </template>
@@ -20,7 +21,8 @@ export default {
   data() {
     return {
       page: this.$route.path,
-      activeName: '/'
+      activeName: '/',
+      isCollapse:false
     }
   },
   created() {},
@@ -39,7 +41,14 @@ export default {
       console.log(tab, event)
       var name=tab.name;
       this.to(name)
-    }
+    },
+     changeMenu() {
+        if (this.isCollapse) {
+          this.isCollapse = false
+        } else {
+          this.isCollapse = true
+        }
+      }
   }
 }
 </script>
@@ -63,9 +72,9 @@ header{
 			font-size:14px;
 		}
 }
-header>div:nth-child(1){
+.sizetext{
 	color: #ffffff;
-	font-size: 20px;
+	font-size: 18px;
 }
 .on{
   text-decoration: underline;
@@ -76,6 +85,11 @@ header>div:nth-child(1){
 .caidan>div{
   display:inline-block;
   text-align: center
+  }
+  .menumedia{
+    line-height: 60px;
+    font-size: 22px;
+    margin-right:10px;
   }
 </style>
 

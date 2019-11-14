@@ -1,28 +1,34 @@
 <template>
-  <div class="contain flexbox">
-    <el-row :gutter="20">
-      <el-col :span="12"><Left></Left></el-col>
-      <el-col :span="12"><Right1></Right1></el-col>
-    </el-row>
+  <div class="contain">
+    <div>
+      <el-row :gutter="20">
+        <el-col :span="24"><Top></Top></el-col>
+      </el-row>
+    </div>
+    <div>
+      <el-row :gutter="20">
+        <el-col :span="24"><Bottom></Bottom></el-col>
+      </el-row>
+    </div>
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
-import Left from '../components/left'
-import Right1 from '../components/right1'
+import Top from '../components/schoolTop'
+import Bottom from '../components/schoolBottom'
 export default {
-  name: 'home',
+  name: 'school',
+  components: {
+    Top: Top,
+    Bottom: Bottom
+  },
   data() {
     return {
       newsList: ''
     }
   },
-  components: {
-    Left: Left,
-    Right1: Right1
-  },
-  created() {},
+  created() { },
   methods: {
     to(e) {
       console.log(e)
@@ -38,8 +44,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  .contain{
+.contain{
   width:100%;
+  height:100%;
   box-sizing: border-box;
   .el-row {
     width:100%;
@@ -50,6 +57,10 @@ export default {
     .el-col{
       height:100%;
     }
+  }
+  >div{
+    height:50%;
+    width:100%
   }
 }
 </style>

@@ -40,8 +40,7 @@ export default {
 <style lang="less" >
 .contain{
   width:100%;
-  height:calc(100% - 95px);
-  margin:20px;
+  height:100%;
   box-sizing: border-box;
   .el-row {
     width:100%;

@@ -1,13 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-
+import menus from '@/config/menu_config'
 Vue.use(Router);
-
-// title:标题
-// isKeepAlive: 记住路由返回上一页不会刷新数据
-// requireAuth: 路由是否需要登录权限
-
-export default new Router({
+var route ={
     mode: 'hash',
     //base: '/dist/index.html',
     routes: [{
@@ -18,25 +13,28 @@ export default new Router({
             title: '中国电信河南公司投资收益评估系统',
             isKeepAlive: false,
         },
-    },{
-        path: '/home',
-        name: 'home',
-        component: () => import('../views/home.vue'),
-        meta: {
-            title: 'support',
-            isKeepAlive: false,
-        },
-    },
-    {
-        path: '/index1',
-        name: 'index1',
-        component: () => import('../views/index1.vue'),
-        meta: {
-            title: '中国电信河南公司投资收益评估系统',
-            isKeepAlive: false,
-        },
+        iconCls: 'el-icon-platform-eleme',
     }], 
-});
+};
+// title:标题
+// isKeepAlive: 记住路由返回上一页不会刷新数据
+// requireAuth: 路由是否需要登录权限
+menus.forEach((item) => {
+    item.sub.forEach((sub) => {
+        route.routes.push({
+          path: `/${sub.componentName}`,
+          name: sub.componentName,
+          component: () => import(`@/views/${sub.componentName}`),
+          meta: {
+            title: '中国电信河南公司投资收益评估系统',
+            isKeepAlive: sub.isKeepAlive,
+        },
+        })
+    })
+  })
+  console.log(route)
+export default new Router(route);
+
 // , {
 //     path: '/page1',
 //     name: 'page1',
