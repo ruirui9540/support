@@ -1,7 +1,7 @@
 <template>
   <div>
     <header class='flexbox'>
-      <i class="el-icon-s-grid menumedia" @click="changeMenu"></i>
+      <!-- <i class="el-icon-s-grid menumedia" @click="changeMenu"></i> -->
       <div class='flex sizetext'>中国电信河南公司投资收益评估系统</div>
       <!-- <div class='flex caidan'>
         <el-tabs v-model="activeName" @tab-click="handleClick">

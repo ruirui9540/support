@@ -1,18 +1,19 @@
 <template>
     <el-row :gutter="20" class='school'>
         <el-col :span="6" style='height:88%'>
-            <div class='flexbox title'>
+            <div class='flexbox title' style='margin-bottom: 7px;'>
                 <div class='tit'></div>投资回收期
-                </div>
-            <!-- <el-card class="box-card height"> -->
+            </div>
+             <el-card class="box-card height">
                 <!-- <div slot="header" class="clearfix">
                 <span class='cardHead'><i class='el-icon-s-management'></i>无线网投入产出比</span>
                 </div> -->
                 <div id='demo1' class='height'></div>
-            <!-- </el-card> -->
+                
+            </el-card>
         </el-col>
         <el-col :span="18" style='height:88%'>
-            <div class='flexbox title'><div class='tit'></div>产出
+            <div class='flexbox title'><div class='tit'></div>项目拆分
                 <div class='flex' style="text-align: right">
                     <el-button type="primary"  size="small" style='margin-top:-6px' @click="open"
               icon="el-icon-edit">项目投资推演</el-button>
@@ -23,6 +24,10 @@
                 <span class='cardHead'><i class='el-icon-s-management'></i>无线网投入产出比</span>
                 </div> -->
                 <div id='demo'></div>
+                <div class='tipLegend'>
+                    <div><span></span>建设投入</div>
+                    <div><span></span>运营投入</div>
+                </div>
             </el-card>
         </el-col>
           <!-- 弹出框 -->
@@ -50,8 +55,6 @@ export default {
             "path": "建设投入",
               itemStyle: {
                 color: '#CC355B',
-               // colorSaturation: 0.35,
-               // colorAlpha: 1
             },
             "children": [
                 {
@@ -59,7 +62,7 @@ export default {
                     "name": "接入以上投入",
                     "path": "建设投入/接入以上投入",
                      itemStyle: {
-                                colorSaturation: 0.50,
+                                colorSaturation: 0.60,
                                 colorAlpha: 1
                             },
                     "children": [
@@ -80,7 +83,7 @@ export default {
                     "name": "接入投入",
                     "path": "建设投入/接入投入",
                     itemStyle: {
-                        colorSaturation: 0.6,
+                        colorSaturation: 0.62,
                         colorAlpha: 1
                     },
                     "children": [
@@ -116,7 +119,7 @@ export default {
                     "name": "平台投入",
                     "path": "建设投入/平台投入",
                     itemStyle: {
-                        colorSaturation: 0.65,
+                        colorSaturation: 0.5,
                         colorAlpha: 1
                     },
                     "children": [
@@ -143,7 +146,7 @@ export default {
             "name": "运营投入",
             "path": "运营投入",
             itemStyle: {
-                color: '#7591CC',
+                color:'#7591CC'//'rgba(143, 219, 255 ,1)' //'#7591CC',
             },
             "children": [
                 {
@@ -152,7 +155,7 @@ export default {
                     "path": "运营投入/年度人力投资",
                       itemStyle: {
                        //color: '#7591CC',
-                        colorSaturation: 0.45,
+                        colorSaturation: 0.55,
                         colorAlpha: 0.8
                     },
                     "children": [
@@ -161,10 +164,10 @@ export default {
                             "name": "人工费",
                             "path": "运营投入/年度人力投资/人工费",
                               itemStyle: {
-                       //color: '#7591CC',
-                        colorSaturation: 0.45,
-                        colorAlpha: 0.8
-                    },
+                            //color: '#7591CC',
+                                colorSaturation: 0.45,
+                                colorAlpha: 0.8
+                            },
                         }
                     ]
                 },
@@ -174,24 +177,39 @@ export default {
                     "path": "运营投入/配套投资",
                     itemStyle: {
                     //  color: '#f3aa02',
-                        colorSaturation: 0.35,
+                        colorSaturation: 0.45,
                         colorAlpha: 1
                     },
                     "children": [
                         {
                             "value": 40,
                             "name": "光缆维护",
-                            "path": "运营投入/配套投资/光缆维护"
+                            "path": "运营投入/配套投资/光缆维护",
+                            itemStyle: {
+                            //  color: '#f3aa02',
+                                colorSaturation: 0.55,
+                                colorAlpha: 1
+                            },
                         },
                         {
                             "value": 40,
                             "name": "机房维护",
-                            "path": "运营投入/配套投资/机房维护"
+                            "path": "运营投入/配套投资/机房维护",
+                            itemStyle: {
+                            //  color: '#f3aa02',
+                                colorSaturation: 0.55,
+                                colorAlpha: 1
+                            },
                         },
                         {
                             "value": 40,
                             "name": "电力消耗",
-                            "path": "运营投入/配套投资/电力消耗"
+                            "path": "运营投入/配套投资/电力消耗",
+                            itemStyle: {
+                            //  color: '#f3aa02',
+                                colorSaturation: 0.55,
+                                colorAlpha: 1
+                            },
                         }
                     ]
                 },
@@ -222,41 +240,162 @@ export default {
         this.chart.setOption(option,true);
     },
     drawPie(){
-        var value = 0.3
-        var data = []
-        data.push(value)
-        data.push(value)
-        data.push(value)
-        data.push(value)
-        data.push(value)
+        var uploadedDataURL = require("../assets/image/data.png");
+        let Green = {
+            x: 0,
+            y: 0,
+            x2: 0,
+            y2: 1,
+            colorStops: [{
+                offset: 0,
+                color: '#99da69' // 0% 处的颜色
+            }, {
+                offset: 1,
+                color: '#01babc' // 100% 处的颜色
+            }],
+            globalCoord: false // 缺省为 false
+        };
+        var dataValArray = 0.63;
+        var datatext = ['17.25','20','12','32','19'];
+        var datasubtext = ['投资回报周期'];
         var option = {
+            title: {
+                text: '3年',
+                subtext: '投资回报周期',
+                x: 'center',
+                y: 'center',
+                textStyle: {
+                    fontSize:26,
+                    fontWeight:'normal',
+                    color: ['#67828c'],
+                },
+                textVerticalAlign:'middle',
+                subtextStyle: {
+                    color: '#67828c',
+                    fontSize: 15,
+                    align: 'center',
+                }
+            },
             series: [{
-                type: 'liquidFill',
-                radius: '80%',
-               // data: data,
-                backgroundStyle: {
-                    borderWidth: 5,
-                    borderColor: 'rgba(255,255,255,0.5)',
-                    color: '#E3F7FF',
-                    
-                },
-                data: [0.6, 0.5, 0.4, 0.3],
-                outline: {
-                    show: false
-                },
-                // shape: 'diamond',
-                 shape: 'path://M367.855,428.202c-3.674-1.385-7.452-1.966-11.146-1.794c0.659-2.922,0.844-5.85,0.58-8.719 c-0.937-10.407-7.663-19.864-18.063-23.834c-10.697-4.043-22.298-1.168-29.902,6.403c3.015,0.026,6.074,0.594,9.035,1.728 c13.626,5.151,20.465,20.379,15.32,34.004c-1.905,5.02-5.177,9.115-9.22,12.05c-6.951,4.992-16.19,6.536-24.777,3.271 c-13.625-5.137-20.471-20.371-15.32-34.004c0.673-1.768,1.523-3.423,2.526-4.992h-0.014c0,0,0,0,0,0.014 c4.386-6.853,8.145-14.279,11.146-22.187c23.294-61.505-7.689-130.278-69.215-153.579c-61.532-23.293-130.279,7.69-153.579,69.202 c-6.371,16.785-8.679,34.097-7.426,50.901c0.026,0.554,0.079,1.121,0.132,1.688c4.973,57.107,41.767,109.148,98.945,130.793 c58.162,22.008,121.303,6.529,162.839-34.465c7.103-6.893,17.826-9.444,27.679-5.719c11.858,4.491,18.565,16.6,16.719,28.643 c4.438-3.126,8.033-7.564,10.117-13.045C389.751,449.992,382.411,433.709,367.855,428.202z',
+                //渐变圆环
+                name: "",
+                type: "pie",
+                radius: ["43%", "58%"],
+                startAngle: 180,
+                hoverAnimation: false,
+                avoidLabelOverlap: true,
+                z: 0,
+                zlevel: 0,
                 label: {
-                    normal: {
-                        formatter: value*10 + '年',
-                        textStyle: {
-                            fontSize: 40,
-                            //color:'#fff'
+                    show: false,
+                    normal: {show: false}
+                },
+                data: [{
+                    value: 0,
+                    name: "",
+                    itemStyle: {
+                        normal: {
+                            color: Green
                         }
                     }
+                }]
+            },
+                {
+                    //仪表盘样式
+                    name: "",
+                    type: "gauge",
+                    radius: "58%",
+                    startAngle: 180,
+                    clockwise:true,
+                    splitNumber: 40,
+                    hoverAnimation: true,
+                    axisTick: {
+                        show: false
+                    },
+                    splitLine: {
+                        length: 20,
+                        lineStyle: {
+                            width: 1,
+                            color: "#fff"
+                        }
+                    },
+                    axisLabel: {
+                        show: false
+                    },
+                    pointer: {
+                        show: false
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            opacity: 0
+                        }
+                    },
+                    detail: {
+                        show: false
+                    },
+                    data: [{
+                        value: Math.round((dataValArray*100)),
+                        name: ""
+                    }]
+                },
+                {
+                    //进度圆环
+                    name: 'Line 1',
+                    type: 'pie',
+                    startAngle: 180,
+                    clockWise: true,
+                    radius:['64%','66%'],
+                    itemStyle: {
+                        normal: {
+                            label: {
+                                show: true
+                            },
+                            labelLine: {
+                                show: false
+                            },
+                        }
+                    },
+                    hoverAnimation: false,
+
+                    data: [{
+                        value:  Math.round((dataValArray*100)) ,
+                        itemStyle: {
+                            normal: {
+                                color: '#20da97'
+                            }
+                        }
+                    },{//画中间的图标
+                        name: "",
+                        value: 0,
+                        label: {
+                            position:'inside',
+                            backgroundColor: {
+                                image: uploadedDataURL
+                            },
+                            width: 16,
+                            height: 16,
+                            borderRadius: 20,
+                            padding: 11
+                        }
+                    }, {
+                        value: 100- Math.round((dataValArray*100)) ,
+                        name: 'invisible',
+                        itemStyle: {
+                            normal: {
+                                color: 'transparent', //未完成的圆环的颜色
+                                label: {
+                                    show: false
+                                },
+                                labelLine: {
+                                    show: false
+                                }
+                            }
+                        }
+                    }
+                    ]
                 }
-            }]
-        }
+            ]
+        };
         var chart = this.$echarts.init(document.getElementById('demo1'));//获取容器元素
                 window.onresize = chart.resize;
                 chart.setOption(option,true);
@@ -296,5 +435,28 @@ export default {
         cursor: pointer;
       }
  }
- 
+ .box-Card{
+     position: relative;
+ }
+ .tipLegend{
+     position: absolute;
+     right:16px;
+     top:50px;
+     >div{
+         margin-bottom: 5px;
+     }
+     >div>span{
+        display: inline-block;
+         width: 24px;
+         height: 14px;
+         margin-right: 5px;
+         border-radius:3px
+     }
+     >div:nth-child(1)>span{
+         background-color: #CC355B
+     }
+     >div:nth-child(2)>span{
+         background-color: #7591CC
+     }
+ }
 </style>

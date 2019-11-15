@@ -1,19 +1,14 @@
-module.exports = [{
-    name: '投资收益评估',
+module.exports = [{//投资收益评估
+    name: '无线网',
     id: 'basic',
     icon:'el-icon-location',
-   
-    sub: [{
-      name: '无线网',
+    sub: [ {
+      name: '宏站',
       componentName: 'index',
       isKeepAlive:false,
     }, {
-      name: '宏站',
-      componentName: 'home',
-      isKeepAlive:false,
-    }, {
       name: '室分',
-      componentName: 'demo',
+      componentName: 'home',
       isKeepAlive:false,
     }]
   }, {
@@ -32,7 +27,12 @@ module.exports = [{
       name: 'DICI',
       componentName: 'demo',
       isKeepAlive:false,
-    }, {
+    }]
+  },{
+    name: '接入网',
+    id: 'net',
+    icon:'el-icon-s-goods',
+    sub: [ {
       name: '接入网',
       componentName: 'empty',
       isKeepAlive:false,

@@ -11,11 +11,11 @@
       @close="handleClose"
       background-color="#545c64"
       text-color="#fff"
-      active-text-color="#C7A150"  :default-active="currentMenu" :collapse="isCollapse">
-
+      active-text-color="#C7A150"  :default-active="currentMenu" :collapse="isCollapse"
+      >
       <el-submenu v-for="(item,index) in menu" :index="item.id" :key="item.id">
         <template slot="title">
-          <i :class="[item.icon]"></i>
+          <i :class="[item.icon,'iconleft']" ></i>
           <span v-text="item.name"></span>
         </template>
         <el-menu-item-group class="over-hide" v-for="sub in item.sub" :key="sub.componentName+index">
@@ -102,5 +102,8 @@
   width: 100%;
     border-right: solid 1px #e6e6e6;
     margin: 0;
+}
+.is-active .iconleft{
+  color:#c7a150
 }
 </style>

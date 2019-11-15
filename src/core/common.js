@@ -44,8 +44,6 @@ class common{
            legend:{
                show:true,
                 top:'2%',
-               right: "5%",
-               //data:['当前项目','同类项目平均/整体项目平均']
            },
            grid:{
                 bottom:'12%',
@@ -62,14 +60,14 @@ class common{
                     barGap: 0.5, //柱子之间间距
                     emphasis: {
                         itemStyle: {//填充部分鼠标移上去颜色
-                            color: 'rgba(255, 0, 0, 0.4)'
+                            color: 'rgba(204, 53, 91, 0.4)'
                         }
                     },
                     itemStyle: {
                         normal: {
-                            color: 'rgba(255, 0, 0, 0.4)',
+                            color: 'rgba(204, 53, 91, 0.4)',
                             borderWidth:'1',
-                            borderColor:'rgba(255, 0, 0 , 1)',
+                            borderColor:'rgba(204, 53, 91, 1)',
                         }
                     },
                     data: data.datanow,
@@ -83,9 +81,9 @@ class common{
                     type: 'pictorialBar',
                     itemStyle: {
                         normal: {//未填充部分鼠标移上去颜色
-                            color: 'rgba(255, 0, 0, 0.4)',
+                            color: 'rgba(204, 53, 91, 0.4)',
                             borderWidth:1,
-                            borderColor:'rgba(255, 0, 0, 1)'
+                            borderColor:'rgba(204, 53, 91, 1)'
                         }
                     },
                     symbolRotate:0,
@@ -103,9 +101,9 @@ class common{
                     type: 'pictorialBar',
                     itemStyle: {
                         normal: {
-                            color: 'rgba(255, 0, 0, 0.4)',
+                            color: 'rgba(204, 53, 91, 0.4)',
                             borderWidth:1,
-                            borderColor:'rgba(255, 0, 0, 1)'
+                            borderColor:'rgba(204, 53, 91, 1)'
                         }
                     },
         
@@ -123,14 +121,16 @@ class common{
                     barGap: 0.5, //柱子之间间距
                     emphasis: {
                         itemStyle: {//左侧未填充部分鼠标移上去颜色
-                            color: 'rgba(143, 219, 255, 0.45)', 
-                            barBorderColor:'rgba(143, 219, 255 ,1)'
+                            color: 'rgba(29, 102, 176, 0.45)', 
+                            barBorderColor:'rgba(29, 102, 176, 1)',
+                            borderWidth:'1',
                         }
                     },
                     itemStyle: {
                         normal: {
-                            color: 'rgba(143, 219, 255, 0.45)',
-                            barBorderColor:'rgba(143, 219, 255 ,1)',
+                            color: 'rgba(29, 102, 176, 0.25)',
+                            barBorderColor:'rgba(29, 102, 176, 1)',
+                            borderWidth:'1',
                         }
                     },
                     data: data.dataold,
@@ -143,9 +143,9 @@ class common{
         
                     itemStyle: {
                         normal: {
-                            color: 'rgba(143, 219, 255, 0.45)',
+                            color: 'rgba(29, 102, 176, 0.45)',
                             borderWidth:1,
-                            borderColor:'rgba(143, 219, 255, 0.45)'
+                            borderColor:'rgba(29, 102, 176, 0.45)'
                         }
                     },
                     symbolRotate: 0,
@@ -163,9 +163,9 @@ class common{
                     type: 'pictorialBar',
                     itemStyle: {
                         normal: {
-                            color: 'rgba(143, 219, 255, 0.45)',
+                            color: 'rgba(29, 102, 176, 0.45)',
                             borderWidth:1,
-                            borderColor:'rgba(143, 219, 255, 1)'
+                            borderColor:'rgba(29, 102, 176, 1)'
                         }
                     },
                     symbolRotate: 0,
@@ -181,11 +181,6 @@ class common{
     }
     diskdata(data){
     return {
-        grid:{
-            bottom:'10%',
-            left:'10%',
-            right:'10%'
-        },
         tooltip: {
             formatter: function (info) {
                // console.log(info)
@@ -197,34 +192,62 @@ class common{
                   return html
             }
         },
+        legend: {
+            data: ['建设投入','运营投入'],
+        },
         series: [{
             name: '全部',
             type: 'treemap',
             visibleMin: 300,
-            colorAlpha:0,
             data: data,
+            // bottom:'16%',
+            // left:'4%',
+            // right:'10%',
+            // top:'10%',
+            left:'4%',
+            top:'8%',
             leafDepth: 2, //呈现层级，若为1加载时仅展开一层，接下来的每一层通过单击进入，如上面的效果图所示，  
             //每一层级呈现的样式  
             label: {
                 show: true,
                 formatter: "{b}: {c}"
             },
+            breadcrumb:{
+                bottom:'100',
+                show:true
+            },
             itemStyle: {
                 normal: {
                     borderColor: '#fff',
-                   borderWidth: 1,
+                    borderWidth: 1,
                    //borderColor: '#ccc'
                 }
             },
             upperLabel: {
                 normal: {
-                    show: false,
+                    show: true,
                     height: 30,
-                    color:'#fff'
-                    //backgroundColor:'#fff'
+                    color:'#333',
+                    backgroundColor:'#fff'
+                },
+                emphasis:{
+                    color:'#666'
                 }
             },
             levels: [{
+                itemStyle: {
+                    normal: {
+                        borderColor: '#fff',
+                        borderWidth: 1,
+                        gapWidth: 1,
+                    }
+                },
+                upperLabel: {
+                    normal: {
+                        show: false
+                    }
+                }
+            },{
                 colorSaturation: [0.2, 0.8],
                itemStyle: {
                    normal: {
@@ -307,8 +330,13 @@ class common{
                           lineStyle: {
                             width:1,
                             type:'dashed',
-                            //color:'rgba(143, 219, 255, 1)'
+                            //color:'#1d66b0'
                           }
+                        }
+                    },
+                    lineStyle:{
+                        normal:{
+                            color:'#1d66b0'
                         }
                     },
                     data:[320, 332, 301, 334, 360, 330]
@@ -334,8 +362,8 @@ class common{
                     stack: '1',
                     data:[
                       80, 42, 
-                      {value : 50, itemStyle:{ normal:{color:'red'}}},
-                      {value : 34, itemStyle:{ normal:{color:'red'}}}, 
+                      {value : 50, itemStyle:{ normal:{color:'#CC355B'}}},
+                      {value : 34, itemStyle:{ normal:{color:'#CC355B'}}}, 
                       60, 70
                     ]
                 }
