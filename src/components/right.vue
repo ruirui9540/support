@@ -1,11 +1,11 @@
 <template>
   <div class="height">
-    <el-row :gutter="20" style="height:48%">
+    <el-row style="height:48%">
       <el-col :span="24">
         <el-card class="height">
           <div slot="header" class="clearfix">
             <span class="cardHead">
-              <i class="el-icon-s-management"></i>河南省无线网投入产出比
+              <i class="el-icon-s-management"></i>河南省{{page}}投入产出比
             </span>
             <el-button
               type="primary"
@@ -20,7 +20,7 @@
       </el-col>
     </el-row>
     <div class="rightBottom marT">
-      <el-row :gutter="20">
+      <el-row :gutter="20" style='margin-right:0'>
         <el-col :span="14">
           <el-card class="height">
             <div slot="header" class="clearfix">
@@ -48,7 +48,7 @@
             <div id="pie" class="height"></div>
           </el-card>
         </el-col>
-        <el-col :span="10">
+        <el-col :span="10" style='padding-right:0'>
           <el-card class="height">
             <div slot="header" class="clearfix">
               <span class="cardHead">
@@ -61,21 +61,27 @@
       </el-row>
     </div>
     <!-- 弹出框 -->
-    <eDialog :show.sync="show" :title="title" @close="close"></eDialog>
+    <!--  -->
+    <component :is='com_name' :show.sync="show" :title="title" @close="close"></component>
+    <!-- <eDialog :show.sync="show" :title="title" @close="close"></eDialog> -->
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
 import eDialog from '../components/eDialog'
+import eDialogschool from '../components/eDialogSchool'
+import {EleResize} from '@/config/esresize'
 export default {
   name: 'Right',
   components: {
     eDialog: eDialog,
+    eDialogschool:eDialogschool
   },
   data() {
     return {
-      page: this.$route.path,
+      page: this.$route.params.id,
+      com_name:'eDialog',
       options: [{
         value: 'ALL_SELECT',
         label: '全选'
@@ -158,7 +164,8 @@ export default {
           ])
         }
       }],
-      sumNum:100
+      sumNum:100,
+      myPie: null,
     }
   },
   created() { },
@@ -168,10 +175,24 @@ export default {
     this.drawPie(this.piedata)
     this.drawLine()
     this.clickPie()
+    if(this.$route.path=='/'||this.$route.path=='/index/投资收益评估概览'){
+        this.com_name='eDialog'
+      }else{
+         this.com_name='eDialogschool'
+      }
+    this.title=this.page
+    
   },
   watch: {
     $route(to, from) {
-      this.page = to.path
+       if(this.$route.path=='/'||this.$route.path=='/index/投资收益评估概览'){
+        this.com_name='eDialog';
+        this.page = '';
+      }else{
+         this.com_name='eDialogschool'
+         this.page =to.params.id.replace('概览','');
+      }
+       this.title=this.page
     },
     piedata:{
       deep:true,
@@ -186,14 +207,6 @@ export default {
     }
   },
   methods: {
-    to(e) {
-      window.scrollTo(0, 0)
-      if (e != this.$route.path) {
-        this.$router.push({
-          path: e
-        })
-      }
-    },
     back(){
       this.piedata=this.sumdata
       this.pietitle='总投入',
@@ -381,9 +394,12 @@ export default {
           }
         ]
       };
-      
-      window.onresize = this.chart.resize;
-      this.chart.setOption(option);
+      that.chart.setOption(option);
+       var dom=document.getElementById('pie');
+      let lestener=function(){
+         that.chart.resize()
+      };
+      EleResize.on(dom,lestener)
     },
     clickPie(){
       var that=this;
@@ -410,6 +426,7 @@ export default {
       var dottedBase = [];
       var lineData = this.touruNum;
       var barData = this.chanchu
+      //console.log(this.barData)
       var rateData = []; var dot = []
       for (var i = 0; i < 5; i++) {
         var bar = barData[i];
@@ -461,7 +478,7 @@ export default {
           top: '1%',
         },
         grid: {
-          x: '8%',
+          x: '10%',
           width: '82%',
           y: '10%',
           bottom: '12%'
@@ -572,9 +589,13 @@ export default {
           },
         ]
       };
-      var chart = this.$echarts.init(document.getElementById('bar'));//获取容器元素
-      window.onresize = chart.resize;
-      chart.setOption(option);
+       var myChart = this.$echarts.init(document.getElementById('bar'));//获取容器元素
+      var dom=document.getElementById('bar')
+       myChart.setOption(option);
+      let lestener=function(){
+        myChart.resize()
+      }
+      EleResize.on(dom,lestener)
     },
     drawPie1() {
       var data = [
@@ -659,9 +680,15 @@ export default {
         title: titleArr,
         series: seriesArr
       }
-      var chart = this.$echarts.init(document.getElementById('pie1'));//获取容器元素
-      window.onresize = chart.resize;
-      chart.setOption(option);
+      this.myPie = this.$echarts.init(document.getElementById('pie1'));//获取容器元素
+       this.myPie.setOption(option);
+      var dom=document.getElementById('pie1')
+      var that=this;
+      let lestener=function(){
+         that.myPie.resize()
+      }
+      EleResize.on(dom,lestener)
+     
     },
     randomFrom(lowerValue,upperValue){
       return Math.floor(Math.random() * (upperValue - lowerValue + 1) + lowerValue);

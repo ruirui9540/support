@@ -13,17 +13,43 @@
       text-color="#fff"
       active-text-color="#C7A150"  :default-active="currentMenu" :collapse="isCollapse"
       >
-      <el-submenu v-for="(item,index) in menu" :index="item.id" :key="item.id">
+       <el-submenu index="first">
         <template slot="title">
-          <i :class="[item.icon,'iconleft']" ></i>
-          <span v-text="item.name"></span>
+          <i class="el-icon-location"></i>
+          <span>投资收益评估</span>
         </template>
-        <el-menu-item-group class="over-hide" v-for="sub in item.sub" :key="sub.componentName+index">
-          <el-menu-item :index="sub.componentName" v-text="sub.name">
-          </el-menu-item>
-        </el-menu-item-group>
+        <el-menu-item index="/">
+          <i class="el-icon-s-promotion"></i>
+          <span slot="title">投资收益评估概览</span>
+        </el-menu-item>
+        <el-submenu index="无线网">
+          <template slot="title">
+            <i class="el-icon-s-promotion"></i>
+            <span>无线网</span>
+          </template>
+          <el-menu-item index="/index/无线网概览">无线网概览</el-menu-item>
+          <el-menu-item index="/index/宏站">宏站</el-menu-item>
+          <el-menu-item index="/index/室分">室分</el-menu-item>
+        </el-submenu>
+         <el-submenu index="政企">
+          <template slot="title">
+            <i class="el-icon-s-promotion"></i>
+            <span>政企</span>
+          </template>
+          <el-menu-item index="/index/政企概览">政企概览</el-menu-item>
+          <el-menu-item index="/index/专线">专线</el-menu-item>
+          <el-menu-item index="/index/校园">校园</el-menu-item>
+          <el-menu-item index="/index/DICI">DICI</el-menu-item>
+        </el-submenu>
+         <el-submenu index="接入网">
+          <template slot="title">
+            <i class="el-icon-s-promotion"></i>
+            <span>接入网</span>
+          </template>
+          <el-menu-item index="/index/接入网概览">接入网概览</el-menu-item>
+          <el-menu-item index="/index/家庭宽带">家庭宽带</el-menu-item>
+        </el-submenu>
       </el-submenu>
-
     </el-menu>
   </el-col>
 </el-row>
@@ -31,13 +57,13 @@
 
 
 <script>
-  import menu from '@/config/menu_config'
+  // import menu from '@/config/menu_config'
 
   export default {
     data () {
       return {
-        menu: menu,
-        currentMenu:this.$route.name,
+        //menu: menu,
+        currentMenu:this.$route.path,
         isCollapse: true,
         icon:'el-icon-s-unfold'
       }
@@ -45,6 +71,15 @@
     methods: {
       handleOpen (key, keyPath) {
         console.log(key, keyPath)
+        if(key=='first'){
+          this.to('/')
+        }else if(key=='无线网'){
+            this.to('/index/无线网概览')
+        }else if(key=='政企'){
+            this.to('/index/政企概览')
+        }else if(key=='接入网'){
+            this.to('/index/接入网概览')
+        }
       },
       handleClose (key, keyPath) {
         console.log(key, keyPath)
@@ -56,19 +91,25 @@
         }else{
           this.icon='el-icon-s-fold'
         }
+      },
+       to(e) {
+      window.scrollTo(0, 0)
+      if (e != this.$route.path) {
+        this.$router.push({
+          path: e
+        })
       }
+    }
     },
     watch: {
       $route(to,from){
-         this.currentMenu=to.name
-          console.log(to.path);
+         this.currentMenu=to.path
+          console.log(this.$route.path);
         }
     },
     mounted(){
-        console.log(this.$route.name)
-        if(this.$route.name==null){
-          this.currentMenu='/index'
-        }
+        //console.log(this.$route.path)
+        
     }
   }
 </script>

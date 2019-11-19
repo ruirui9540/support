@@ -13,11 +13,11 @@
             </el-card>
         </el-col>
         <el-col :span="18" style='height:88%'>
-            <div class='flexbox title'><div class='tit'></div>项目拆分
-                <div class='flex' style="text-align: right">
+            <div class='flexbox title'><div class='tit'></div>投入明细
+                <!-- <div class='flex' style="text-align: right">
                     <el-button type="primary"  size="small" style='margin-top:-6px' @click="open"
               icon="el-icon-edit">项目投资推演</el-button>
-                </div>
+                </div> -->
             </div>
             <el-card class="box-card height">
                 <!-- <div slot="header" class="clearfix">

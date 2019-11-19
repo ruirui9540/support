@@ -1,12 +1,12 @@
 <template>
   <div class="contain">
     <div>
-      <el-row :gutter="20">
+      <el-row>
         <el-col :span="24"><Top></Top></el-col>
       </el-row>
     </div>
     <div>
-      <el-row :gutter="20">
+      <el-row>
         <el-col :span="24"><Bottom></Bottom></el-col>
       </el-row>
     </div>
@@ -45,8 +45,9 @@ export default {
 
 <style lang="less" scoped>
 .contain{
-  width:100%;
-  height:100%;
+    width: 98%;
+    height: 91%;
+    margin:0 10px;
   box-sizing: border-box;
   .el-row {
     width:100%;

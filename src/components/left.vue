@@ -1,7 +1,7 @@
 <template>
   <el-card class="box-card">
     <div slot="header" class="clearfix">
-      <span class='cardHead'><i class='el-icon-s-management'></i>无线网投入产出比</span>
+      <span class='cardHead'><i class='el-icon-s-management'></i>{{page}}投入产出比</span>
     </div>
     <div id='map'></div>
   </el-card>
@@ -22,7 +22,7 @@ export default {
   name: 'Left',
   data() {
     return {
-      page: this.$route.path,
+      page: this.$route.params.id,
       data:[]
     }
   },
@@ -32,7 +32,11 @@ export default {
   },
   watch: {
     $route(to, from) {
-      this.page = to.path
+        if(this.$route.path=='/'){
+          this.page=''
+        }else{
+          this.page = to.params.id.replace('概览','');
+        }
     }
   },
   methods: {
@@ -115,11 +119,7 @@ var option = {
             color: '#000',
             decoration: 'none',
         },
-        // position: function (point, params, dom, rect, size) {
-        //   return [point[0], point[1]];
-        // },
         formatter: function(params) {
-             console.log(params)
             var tipHtml = '';var data='',rate=''
             if(params.componentSubType=='map'){
                 rate=params.data.value;

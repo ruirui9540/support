@@ -23,6 +23,9 @@ export default {
     }
   },
   created() { },
+  mounted(){
+   
+  },
   methods: {
     to(e) {
       console.log(e)
@@ -33,14 +36,20 @@ export default {
         })
       }
     }
+  },
+  watch:{
+    '$route':function(to,form){
+      console.log(this.$route.params)
+    }
   }
 }
 </script>
 
 <style lang="less" >
 .contain{
-  width:100%;
-  height:100%;
+     width: 98%;
+    height: 91%;
+    margin:0 10px;
   box-sizing: border-box;
   .el-row {
     width:100%;

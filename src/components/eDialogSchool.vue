@@ -42,7 +42,7 @@
            </el-col>
             <el-col :span="2">万元</el-col>
             <el-col :span="6" class='red'>剩余 {{exarl}} 万元 </el-col>
-            <i v-bind:class="[tips ? 'el-icon-arrow-down' : 'el-icon-arrow-right', icon]" @click="tips=!tips"></i>
+            <i v-bind:class="[tips ? 'el-icon-arrow-down' : 'el-icon-arrow-right', 'icon']" @click="tips=!tips"></i>
         </el-form-item>
         <div v-show='tips' class='tree' style='margin-left:16%' v-for='(item,i) in treeData' :key='"tree"+i'>
           <el-row>

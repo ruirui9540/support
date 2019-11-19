@@ -7,7 +7,7 @@
 export default {
   beforeRouteEnter(to, from, next) {
     next(vm => {
-      vm.$router.replace(from.path + '?id=' + to.query.id)
+      vm.$router.replace(from.path)
     })
   }
 }
