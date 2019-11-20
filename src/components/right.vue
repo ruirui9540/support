@@ -5,7 +5,8 @@
         <el-card class="height">
           <div slot="header" class="clearfix">
             <span class="cardHead">
-              <i class="el-icon-s-management"></i>河南省{{page}}投入产出比
+              <i class="el-icon-s-management"></i>
+              河南省{{page}}投入产出比
             </span>
             <el-button
               type="primary"
@@ -20,12 +21,14 @@
       </el-col>
     </el-row>
     <div class="rightBottom marT">
-      <el-row :gutter="20" style='margin-right:0'>
+      <el-row :gutter="20" style="margin-right:0">
         <el-col :span="14">
           <el-card class="height">
             <div slot="header" class="clearfix">
               <span class="cardHead cardTitle">
-                <i class="el-icon-s-management"></i><span @click='back' class='back'>投入</span><span>{{pieheader}}</span>
+                <i class="el-icon-s-management"></i>
+                <span @click="back" class="back">投入</span>
+                <span>{{pieheader}}</span>
               </span>
               <el-select
                 v-model="chooseData"
@@ -48,7 +51,7 @@
             <div id="pie" class="height"></div>
           </el-card>
         </el-col>
-        <el-col :span="10" style='padding-right:0'>
+        <el-col :span="10" style="padding-right:0">
           <el-card class="height">
             <div slot="header" class="clearfix">
               <span class="cardHead">
@@ -62,7 +65,7 @@
     </div>
     <!-- 弹出框 -->
     <!--  -->
-    <component :is='com_name' :show.sync="show" :title="title" @close="close"></component>
+    <component :is="com_name" :show.sync="show" :title="title" @close="close"></component>
     <!-- <eDialog :show.sync="show" :title="title" @close="close"></eDialog> -->
   </div>
 </template>
@@ -71,17 +74,18 @@
 import Vue from 'vue'
 import eDialog from '../components/eDialog'
 import eDialogschool from '../components/eDialogSchool'
-import {EleResize} from '@/config/esresize'
+import { EleResize } from '@/config/esresize'
+import pieData from '@/config/pieData'
 export default {
   name: 'Right',
   components: {
     eDialog: eDialog,
-    eDialogschool:eDialogschool
+    eDialogschool: eDialogschool
   },
   data() {
     return {
       page: this.$route.params.id,
-      com_name:'eDialog',
+      com_name: 'eDialog',
       options: [{
         value: 'ALL_SELECT',
         label: '全选'
@@ -105,10 +109,7 @@ export default {
       oldChooseData: [],
       show: false,
       title: '无线网',
-      piedata: [
-        { value: 1, name: '建安投资' },
-        { value: 3, name: '设备投资' },
-        { value: 2.1954, name: '待摊投资' }],
+      piedata: pieData.sumdata,
       sumdata: [
         { value: 1, name: '建安投资' },
         { value: 3, name: '设备投资' },
@@ -117,7 +118,7 @@ export default {
         { value: 17, name: '材料费' },
         { value: 23, name: '施工费' },
       ],
-      daitan:[
+      daitan: [
         { value: 17, name: '建设单位管理费' },
         { value: 23, name: '征地及补偿费' },
         { value: 27, name: '可行性研究费' },
@@ -134,37 +135,37 @@ export default {
         { value: 23, name: '环境影响评价费' },
         { value: 27, name: '其他' },
       ],
-      shebei:[
-        { value: 27, name: 'LTE主设备1.8G' },
+      shebei: [
+        { value: 27, name: 'LTE主设备1.8G' ,check:true},
         { value: 23, name: 'LTE主设备2.1G' },
         { value: 27, name: 'LTE主设备800M' },
         { value: 23, name: '室内分布系统' },
         { value: 27, name: '无线网配套及其他' },
       ],
-      pietitle:'总投入',
-      pieheader:'',
-      touruNum:[177133, 169043, 156670, 123908, {        value: 61954,
+      pietitle: '总投入',
+      pieheader: '',
+      touruNum: [177133, 169043, 156670, 123908, {        value: 61954,
         itemStyle: {
           borderType: 'dotted',
           color: '#ffdcc3'
         }
       }],
-      chanchu:[96083, 246140, 318999, 408068, {value: 521779.48,
+      chanchu: [96083, 246140, 318999, 408068, {        value: 521779.48,
         itemStyle: {
           borderType: 'dotted',
-          barBorderColor:'#ffdcc3',
+          barBorderColor: '#ffdcc3',
           color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
             offset: 0.4,
             color: "#FF7F50"
           },
           {
             offset: 1,
-            color: "#ffdcc3" 
+            color: "#ffdcc3"
           }
           ])
         }
       }],
-      sumNum:100,
+      sumNum: 100,
       myPie: null,
     }
   },
@@ -172,62 +173,74 @@ export default {
   mounted() {
     this.chart = this.$echarts.init(document.getElementById('pie'));//获取容器元素
     this.drawPie1()
-    this.drawPie(this.piedata)
     this.drawLine()
+    if (this.$route.path == '/' || this.$route.path == '/index/投资收益评估概览') {
+      this.com_name = 'eDialog'
+    } else if(this.$route.path == '/index/无线网概览'){
+      this.com_name = 'eDialogschool'
+      this.piedata=pieData.network
+    }else{
+       this.com_name = 'eDialogschool'
+    }
+    this.drawPie(this.piedata)
     this.clickPie()
-    if(this.$route.path=='/'||this.$route.path=='/index/投资收益评估概览'){
-        this.com_name='eDialog'
-      }else{
-         this.com_name='eDialogschool'
-      }
-    this.title=this.page
-    
+    this.title = this.page
   },
   watch: {
     $route(to, from) {
-       if(this.$route.path=='/'||this.$route.path=='/index/投资收益评估概览'){
-        this.com_name='eDialog';
+      this.piedata=pieData.sumdata
+      if (this.$route.path == '/' || this.$route.path == '/index/投资收益评估概览') {
+        this.com_name = 'eDialog';
         this.page = '';
+      } else if(this.$route.path == '/index/无线网概览'){
+         this.piedata=pieData.network
+        this.com_name = 'eDialogschool'
+        this.page = to.params.id.replace('概览', '');
       }else{
-         this.com_name='eDialogschool'
-         this.page =to.params.id.replace('概览','');
+         this.com_name = 'eDialogschool'
+        this.page = to.params.id.replace('概览', '');
       }
-       this.title=this.page
+      this.title = this.page
+      this.drawPie(this.piedata)
+      this.clickPie()
     },
-    piedata:{
-      deep:true,
-      handler:function(newval,oldval){
-        if(newval){
-            this.drawPie(newval)
-        }else{
+    piedata: {
+      deep: true,
+      handler: function (newval, oldval) {
+        if (newval) {
+          this.drawPie(newval)
+        } else {
           this.drawPie(oldval)
-          console.log(this.pietitle)
         }
       }
     }
   },
   methods: {
-    back(){
-      this.piedata=this.sumdata
-      this.pietitle='总投入',
-      this.pieheader=''
+    back() {
+      if(this.$route.path == '/index/无线网概览'){
+           this.piedata=pieData.network
+      }else{
+           this.piedata=pieData.sumdata
+      }
+      this.pietitle = '总投入',
+      this.pieheader = ''
     },
     open() {
       this.show = true;
     },
     close(e) {
       this.show = false;
-      this.sumNum=e
-      var len=this.piedata;
+      this.sumNum = e
+      var len = this.piedata;
       //0 建安
-      this.$set(this.piedata[0], 'value', Number(e*this.randomFrom(20,30)/100).toFixed(2))
+      this.$set(this.piedata[0], 'value', Number(e * this.randomFrom(20, 30) / 100).toFixed(2))
       //1 设备
-      this.$set(this.piedata[1], 'value', Number(e*this.randomFrom(50,55)/100).toFixed(2))
-     var val=e-Number(this.piedata[0].value)-Number(this.piedata[1].value);
-      this.$set(this.piedata[2], 'value', (e*val/100).toFixed(2))
+      this.$set(this.piedata[1], 'value', Number(e * this.randomFrom(50, 55) / 100).toFixed(2))
+      var val = e - Number(this.piedata[0].value) - Number(this.piedata[1].value);
+      this.$set(this.piedata[2], 'value', (e * val / 100).toFixed(2))
       console.log(this.touruNum)
-      this.$set(this.touruNum[4], 'value', e*10000)
-      this.$set(this.chanchu[4], 'value', this.randomFrom(this.chanchu[3]*0.8,this.chanchu[3]*1.5))
+      this.$set(this.touruNum[4], 'value', e * 10000)
+      this.$set(this.chanchu[4], 'value', this.randomFrom(this.chanchu[3] * 0.8, this.chanchu[3] * 1.5))
       this.drawLine()
     },
     change(val) {
@@ -266,8 +279,8 @@ export default {
 
     },
     drawPie(piedata) {
-      var that=this;
-      var colorList = ['#6990D5', '#FF7F50', '#3feed4', '#00d488', '#afa3f5', '#f1bb4c', "#6A9DFF",'#ffc257','rgba(5, 65, 110, 1)', '#3bafff', '#ffedcc','#fd6f97', '#fed4e0','#a181fc','#115dab', '#e3d9fe'];
+      var that = this;
+      var colorList = ['#6990D5', '#FF7F50', '#3feed4', '#00d488', '#afa3f5', '#f1bb4c', "#6A9DFF", '#ffc257', 'rgba(5, 65, 110, 1)', '#3bafff', '#ffedcc', '#fd6f97', '#fed4e0', '#a181fc', '#115dab', '#e3d9fe'];
       var option = {
         title: {
           subtext: that.pietitle,
@@ -283,10 +296,10 @@ export default {
             fontSize: 16
           },
         },
-         tooltip: {
-        trigger: 'item',
-        
-    },
+        tooltip: {
+          trigger: 'item',
+
+        },
         grid: {
           bottom: 150,
           left: 0,
@@ -336,7 +349,7 @@ export default {
               normal: {
                 formatter: function (params) {
                   var str = '';
-                  var rate=(Number(params.value)/Number(that.sumNum))*100
+                  var rate = (Number(params.value) / Number(that.sumNum)) * 100
                   str = '{nameStyle|' + params.name + ' }' + '{rate|' + params.value + '亿}';
                   return str
                 },
@@ -395,30 +408,34 @@ export default {
         ]
       };
       that.chart.setOption(option);
-       var dom=document.getElementById('pie');
-      let lestener=function(){
-         that.chart.resize()
+      var dom = document.getElementById('pie');
+      let lestener = function () {
+        that.chart.resize()
       };
-      EleResize.on(dom,lestener)
+      EleResize.on(dom, lestener)
     },
-    clickPie(){
-      var that=this;
-// 处理点击事件并且跳转到相应的百度搜索页面
+    clickPie() {
+      console.log(1)
+      var that = this;
+      // 处理点击事件并且跳转到相应的百度搜索页面
       this.chart.on('click', function (param) {
+        console.log(param)
         var name = param.name;
-        if (name === '待摊投资') {
-          that.pietitle='待摊投资';
-          that.pieheader=' > '+'待摊投资'
-          that.piedata=that.daitan
-        }else if(name === '设备投资'){
-           that.piedata=that.shebei
-            that.pietitle='设备投资';
-          that.pieheader=' > '+'设备投资'
-        }else if(name === '建安投资'){
-           that.piedata=that.jianan
-            that.pietitle='建安投资';
-          that.pieheader=' > '+'建安投资'
+        if(param.data.check){
+          that.pietitle = name;
+          that.pieheader = ' > '+name
+          var second=param.data.secondName
+          that.piedata=pieData[second]
+        }else{
+          that.$message.error('已经到最底层了');
         }
+        // if (name === '待摊投资') {
+        //   that.piedata = that.daitan
+        // } else if (name === '设备投资') {
+        //   that.piedata = that.shebei
+        // } else if (name === '建安投资') {
+        //   that.piedata = that.jianan
+        // }
       });
     },
     drawLine() {
@@ -579,7 +596,7 @@ export default {
                 color: new this.$echarts.graphic.LinearGradient(
                   0, 0, 0, 1,
                   [
-                     { offset: 0, color: '#6990D5' },
+                    { offset: 0, color: '#6990D5' },
                     { offset: 1, color: '#3ab8f2' }
                   ]
                 )
@@ -589,13 +606,13 @@ export default {
           },
         ]
       };
-       var myChart = this.$echarts.init(document.getElementById('bar'));//获取容器元素
-      var dom=document.getElementById('bar')
-       myChart.setOption(option);
-      let lestener=function(){
+      var myChart = this.$echarts.init(document.getElementById('bar'));//获取容器元素
+      var dom = document.getElementById('bar')
+      myChart.setOption(option);
+      let lestener = function () {
         myChart.resize()
       }
-      EleResize.on(dom,lestener)
+      EleResize.on(dom, lestener)
     },
     drawPie1() {
       var data = [
@@ -681,18 +698,18 @@ export default {
         series: seriesArr
       }
       this.myPie = this.$echarts.init(document.getElementById('pie1'));//获取容器元素
-       this.myPie.setOption(option);
-      var dom=document.getElementById('pie1')
-      var that=this;
-      let lestener=function(){
-         that.myPie.resize()
+      this.myPie.setOption(option);
+      var dom = document.getElementById('pie1')
+      var that = this;
+      let lestener = function () {
+        that.myPie.resize()
       }
-      EleResize.on(dom,lestener)
-     
+      EleResize.on(dom, lestener)
+
     },
-    randomFrom(lowerValue,upperValue){
+    randomFrom(lowerValue, upperValue) {
       return Math.floor(Math.random() * (upperValue - lowerValue + 1) + lowerValue);
-      }
+    }
   }
 }
 </script>
@@ -708,7 +725,7 @@ export default {
   width: 45%;
   margin-top: -6px;
 }
-.back:hover{
+.back:hover {
   text-decoration: underline;
 }
 </style>

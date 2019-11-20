@@ -26,15 +26,16 @@ let baseURL = '';
 // } else if (location.host.indexOf('localhost') > -1) {
 //     baseURL = 'https://web-backend.turboradio.cn'
 // } 
-// axios.create({
-//     baseURL: ajaxUrl,
-//     timeout: 30000
-// });
+axios.create({
+    //baseURL: 'http://61.190.254.58:8080/',
+    headers: {
+        'Content-Type': 'appliction/x-www-form-urlencoded'
+        // 'Authorization': 'JWT ' + localStorage.token
+    }
+});
+// 在实例已创建后修改默认值
+//axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 const post = (url, params) => {
-    axios.defaults.withCredentials = true;
-    axios.defaults.timeout = 60000;
-    const Authorization = 'Authorization';
-    axios.defaults.headers.common[Authorization] = 'Bearer ' + VueCookies.get('openId');
     return new Promise((resolve, reject) => {
         axios.post(url, params)
             .then((response) => {
@@ -50,10 +51,7 @@ const post = (url, params) => {
 };
 
 const get = (url) => {
-    axios.defaults.withCredentials = true;
-    axios.defaults.timeout = 60000;
-    const Authorization = 'Authorization';
-    axios.defaults.headers.common[Authorization] = 'Bearer ' + VueCookies.get('openId');
+    //axios.defaults.withCredentials = true;//跨域带上cookies
     return new Promise((resolve, reject) => {
         axios.get(url)
             .then((response) => {

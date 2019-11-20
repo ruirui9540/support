@@ -37,6 +37,7 @@ import Vue from 'vue'
 import Header from './components/head'
 import Menu from './components/menu'
 import county from '@/config/countyData'
+// import { api1 } from '@/core/net/http'// 导入我们的api接口
 export default {
   name: 'app',
   data() {
@@ -57,17 +58,8 @@ export default {
        if(this.$route.path=='/'){
           this.to('/index/项目详情')
        }else{
+         console.log(0)
          this.to('/index/'+this.page+'/school')
-       }
-     },
-     clickBtn(){
-       console.log(this.xm)
-       if(this.xm){
-         console.log(1)
-         //this.to('/index/'+this.page)
-       }else{
-         console.log(2)
-         //this.to('/empty')
        }
      },
     to(e) {
@@ -99,6 +91,18 @@ export default {
         }
       }
     },
+    mounted(){
+      // this.$get('http://127.0.0.1:5000/ ').then(res=>{
+      //   console.log(res)
+      // })
+      // api1({}).then(res => {
+      //   // success
+      //   console.log(res)
+      // }).catch((error) => {
+      //   // error
+      //   console.log(error)
+      // })
+    }
 }
 </script>
 <style scoped lang="less">
