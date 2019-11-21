@@ -32,6 +32,15 @@ export default new Router({
         },
     },
     {
+        path: '/xm/:id',
+        name: 'school',
+        component: () => import('../views/school.vue'),
+        meta: {
+            title: '中国电信河南公司投资收益评估系统',
+            isKeepAlive: false,
+        },
+    },
+    {
         path: '/empty',
         name: 'empty',
         component: () => import('../views/empty.vue'),

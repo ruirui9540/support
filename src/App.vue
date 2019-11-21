@@ -11,9 +11,8 @@
               <el-breadcrumb-item :to="{ path: '/' }" >首页</el-breadcrumb-item>
               <el-breadcrumb-item v-if='second' :to="{path:'/index/'+page}">{{page}}</el-breadcrumb-item>
               <el-breadcrumb-item v-else :to="{path:'/empty'}">{{page}}</el-breadcrumb-item>
-              <el-breadcrumb-item v-if="xm">{{xm}}</el-breadcrumb-item>
+              <el-breadcrumb-item v-if="xm" :to="{path:'/empty'}">{{xm}}</el-breadcrumb-item>
             </el-breadcrumb>
-            <!-- <el-page-header @back="to('/')" v-else :content='page'></el-page-header> -->
             <div class='mainRight'>
                <span> 项目：</span><el-cascader :options="options" size='mini' @change='change' clearable></el-cascader>
             </div>
@@ -56,7 +55,7 @@ export default {
   methods:{
      change(){
        if(this.$route.path=='/'){
-          this.to('/index/项目详情')
+          this.to('/xm/school')
        }else{
          console.log(0)
          this.to('/index/'+this.page+'/school')
@@ -81,12 +80,16 @@ export default {
         }else{
           console.log(this.$route)
            this.show=false;
-           if(this.$route.name=='school'){
-             this.xm='项目详情';
-             this.second=true
-           }else{
+           if(this.$route.path=='/xm/school'){
+              this.page='项目详情';
              this.xm='';
-              this.second=false
+             this.second=false;
+           }else if(this.$route.name=='index'){
+             this.xm='';
+             this.second=false;
+           }else{
+             this.xm='项目详情';
+             this.second=true;
            }
         }
       }
