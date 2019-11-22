@@ -228,7 +228,7 @@ export default {
             showLegendSymbol: false, // 存在legend时显示
             label: {
               normal: {
-                show: true
+                show: true,
               },
               emphasis: {
                 show: false,

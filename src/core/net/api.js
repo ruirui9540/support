@@ -29,7 +29,7 @@ let baseURL = '';
 axios.create({
     //baseURL: 'http://61.190.254.58:8080/',
     headers: {
-        'Content-Type': 'application/json;charset=UTF-8'
+        'Content-Type': 'application/json; charset=UTF-8'
         // 'Authorization': 'JWT ' + localStorage.token
     }
 });

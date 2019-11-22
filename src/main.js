@@ -20,7 +20,7 @@ Vue.prototype.$commonJS = common
 // 授权
 router.beforeEach((to, from, next) => {
     // 配置标题
-    document.title = to.meta.title ? to.meta.title : 'support';
+    document.title = to.meta.title ? to.meta.title : '中国电信河南公司投资收益评估系统';
     next();
 });
 
