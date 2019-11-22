@@ -27,27 +27,27 @@
             <i class="el-icon-s-promotion"></i>
             <span>无线网</span>
           </template>
-          <el-menu-item index="/index/无线网概览">无线网概览</el-menu-item>
-          <el-menu-item index="/index/宏站">宏站</el-menu-item>
-          <el-menu-item index="/index/室分">室分</el-menu-item>
+          <el-menu-item index="/index/无线网概览/network">无线网概览</el-menu-item>
+          <el-menu-item index="/index/宏站/network">宏站</el-menu-item>
+          <el-menu-item index="/index/室分/network">室分</el-menu-item>
         </el-submenu>
          <el-submenu index="政企">
           <template slot="title">
             <i class="el-icon-s-promotion"></i>
             <span>政企</span>
           </template>
-          <el-menu-item index="/index/政企概览">政企概览</el-menu-item>
-          <el-menu-item index="/index/专线">专线</el-menu-item>
-          <el-menu-item index="/index/校园">校园</el-menu-item>
-          <el-menu-item index="/index/DICI">DICI</el-menu-item>
+          <el-menu-item index="/index/政企概览/network">政企概览</el-menu-item>
+          <el-menu-item index="/index/专线/network">专线</el-menu-item>
+          <el-menu-item index="/index/校园/network">校园</el-menu-item>
+          <el-menu-item index="/index/DICI/network">DICI</el-menu-item>
         </el-submenu>
          <el-submenu index="接入网">
           <template slot="title">
             <i class="el-icon-s-promotion"></i>
             <span>接入网</span>
           </template>
-          <el-menu-item index="/index/接入网概览">接入网概览</el-menu-item>
-          <el-menu-item index="/index/家庭宽带">家庭宽带</el-menu-item>
+          <el-menu-item index="/index/接入网概览/network">接入网概览</el-menu-item>
+          <el-menu-item index="/index/家庭宽带/network">家庭宽带</el-menu-item>
         </el-submenu>
       </el-submenu>
     </el-menu>
@@ -71,14 +71,12 @@
     methods: {
       handleOpen (key, keyPath) {
         console.log(key, keyPath)
-        if(key=='first'){
-          this.to('/')
-        }else if(key=='无线网'){
-            this.to('/index/无线网概览')
+        if(key=='无线网'){
+            this.to('/index/无线网概览/network')
         }else if(key=='政企'){
-            this.to('/index/政企概览')
+            this.to('/index/政企概览/network')
         }else if(key=='接入网'){
-            this.to('/index/接入网概览')
+            this.to('/index/接入网概览/network')
         }
       },
       handleClose (key, keyPath) {
@@ -108,7 +106,7 @@
         }
     },
     mounted(){
-        //console.log(this.$route.path)
+        console.log(this.$route)
         
     }
   }
@@ -143,6 +141,7 @@
   width: 100%;
     border-right: solid 1px #e6e6e6;
     margin: 0;
+    cursor: pointer;
 }
 .is-active .iconleft{
   color:#c7a150

@@ -14,7 +14,19 @@
               <el-breadcrumb-item v-if="xm" :to="{path:'/empty'}">{{xm}}</el-breadcrumb-item>
             </el-breadcrumb>
             <div class='mainRight'>
-               <span> 项目：</span><el-cascader :options="options" size='mini' @change='change' clearable></el-cascader>
+              <div>
+                <span> 项目：</span><el-cascader :options="options" size='mini' @change='change' clearable></el-cascader>
+              </div>
+               <div>
+                 <span>时间：</span><el-select v-model="value" size='mini' clearable placeholder="请选择">
+                    <el-option
+                      v-for="item in selectData"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+               </div>
             </div>
             
           </div>
@@ -45,7 +57,24 @@ export default {
       show:false,
       options: county,
       xm:'',
-      second:false
+      second:false,
+       selectData: [{
+          value: '2015',
+          label: '2015'
+        }, {
+          value: '2016',
+          label: '2016'
+        }, {
+          value: '2017',
+          label: '2017'
+        }, {
+          value: '2018',
+          label: '2018'
+        }, {
+          value: '2019',
+          label: '2019'
+        }],
+        value: ''
     }
   },
   components: {
@@ -95,9 +124,9 @@ export default {
       }
     },
     mounted(){
-      // this.$get('http://127.0.0.1:5000/ ').then(res=>{
-      //   console.log(res)
-      // })
+      this.$post('/api/index/line',{}).then(res=>{
+        console.log(res)
+      })
       // api1({}).then(res => {
       //   // success
       //   console.log(res)
@@ -147,7 +176,10 @@ export default {
   line-height: 40px;
 }
 .mainRight{
+  flex:1;
   margin-left:60px;
+      display: flex;
+     justify-content: space-between;
   >span{
     font-size: 14px;
     font-weight: 500;

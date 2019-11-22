@@ -23,7 +23,7 @@ export default new Router({
             isKeepAlive: false,
         },
     },{
-        path: '/index/:id',
+        path: '/index/:id/:type',
         name: 'index',
         component: () => import('../views/index.vue'),
         meta: {
@@ -44,6 +44,24 @@ export default new Router({
         path: '/empty',
         name: 'empty',
         component: () => import('../views/empty.vue'),
+        meta: {
+            title: '中国电信河南公司投资收益评估系统',
+            isKeepAlive: false,
+        },
+    },
+    {
+        path: '/test',
+        name: 'test',
+        component: () => import('../views/test.vue'),
+        meta: {
+            title: '中国电信河南公司投资收益评估系统',
+            isKeepAlive: false,
+        },
+    },
+    {
+        path: '/index1',
+        name: 'index1',
+        component: () => import('../views/home.vue'),
         meta: {
             title: '中国电信河南公司投资收益评估系统',
             isKeepAlive: false,

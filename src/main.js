@@ -12,6 +12,7 @@ Vue.use(ElementUI)
 Vue.config.productionTip = false;
 // 全局变量定义
 Vue.prototype.$cookies = VueCookies;
+
 Vue.prototype.$get = api.get;
 Vue.prototype.$post = api.post;
 Vue.prototype.$echarts = echarts 

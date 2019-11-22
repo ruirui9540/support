@@ -2,7 +2,7 @@ const pieData={
     sumdata: [
         { value: 1, name: '建安投资' ,check:true,secondName:'jianan'},
         { value: 3, name: '设备投资' ,check:true,secondName:'shebei'},
-        { value: 2.1954, name: '待摊投资',check:true,secondName:'daitan' }],
+        { value: 2.2, name: '待摊投资',check:true,secondName:'daitan' }],
       jianan: [
         { value: 17, name: '材料费',check:false,secondName:'' },
         { value: 23, name: '施工费' ,check:false,secondName:'' },

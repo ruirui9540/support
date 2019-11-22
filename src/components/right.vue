@@ -21,44 +21,43 @@
       </el-col>
     </el-row>
     <div class="rightBottom marT">
-      <el-row :gutter="20" style="margin-right:0">
-        <el-col :span="14">
-          <el-card class="height">
+      <el-row :gutter="20" style="margin:0">
+        <el-col :span="12" style="padding-left:0">
+          <el-card class="height pieT">
             <div slot="header" class="clearfix">
               <span class="cardHead cardTitle">
                 <i class="el-icon-s-management"></i>
                 <span @click="back" class="back">投入</span>
                 <span>{{pieheader}}</span>
               </span>
-              <el-select
-                v-model="chooseData"
-                class="elSelect"
-                collapse-tags
-                size="small"
-                number="2"
-                multiple
-                placeholder="请选择"
-                @change="change"
-              >
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
-              </el-select>
             </div>
             <div id="pie" class="height"></div>
           </el-card>
         </el-col>
-        <el-col :span="10" style="padding-right:0">
+        <el-col :span="12" style="padding-right:0">
           <el-card class="height">
             <div slot="header" class="clearfix">
               <span class="cardHead">
                 <i class="el-icon-s-management"></i>产出
               </span>
             </div>
-            <div id="pie1" class="height"></div>
+            <div class="cont flexbox">
+              <div :class='["flex",pieActive==0 ? "active" : ""]' @click="pieActive=0">
+                <p>回报周期(月)</p>
+                <p>36</p>
+              </div>
+              <div class="contLine"></div>
+              <div :class='["flex",pieActive==1 ? "active" : ""]' @click="pieActive=1">
+                <p>ARPU(万元)</p>
+                <p>36</p>
+              </div>
+              <div class="contLine"></div>
+              <div :class='["flex",pieActive==2 ? "active" : ""]' @click="pieActive=2">
+                <p>用户数(万)</p>
+                <p>36</p>
+              </div>
+            </div>
+            <div id="pie1"></div>
           </el-card>
         </el-col>
       </el-row>
@@ -86,77 +85,28 @@ export default {
     return {
       page: this.$route.params.id,
       com_name: 'eDialog',
-      options: [{
-        value: 'ALL_SELECT',
-        label: '全选'
-      }, {
-        value: '选项1',
-        label: '2015'
-      }, {
-        value: '选项2',
-        label: '2016'
-      }, {
-        value: '选项3',
-        label: '2017'
-      }, {
-        value: '选项4',
-        label: '2018'
-      }, {
-        value: '选项5',
-        label: '2019'
-      }],
       chooseData: [],
       oldChooseData: [],
       show: false,
       title: '无线网',
       piedata: pieData.sumdata,
-      sumdata: [
-        { value: 1, name: '建安投资' },
-        { value: 3, name: '设备投资' },
-        { value: 2.1954, name: '待摊投资' }],
-      jianan: [
-        { value: 17, name: '材料费' },
-        { value: 23, name: '施工费' },
-      ],
-      daitan: [
-        { value: 17, name: '建设单位管理费' },
-        { value: 23, name: '征地及补偿费' },
-        { value: 27, name: '可行性研究费' },
-        { value: 23, name: '勘察设计费' },
-        { value: 27, name: '合同公证及监理费' },
-        { value: 23, name: '资本化借款利息' },
-        { value: 27, name: '中介机构审计费' },
-        { value: 23, name: '汇兑损益' },
-        { value: 27, name: '税金' },
-        { value: 23, name: '工程损失' },
-        { value: 27, name: '系统集成费' },
-        { value: 23, name: '安全生产费' },
-        { value: 27, name: '工程招标代理费' },
-        { value: 23, name: '环境影响评价费' },
-        { value: 27, name: '其他' },
-      ],
-      shebei: [
-        { value: 27, name: 'LTE主设备1.8G' ,check:true},
-        { value: 23, name: 'LTE主设备2.1G' },
-        { value: 27, name: 'LTE主设备800M' },
-        { value: 23, name: '室内分布系统' },
-        { value: 27, name: '无线网配套及其他' },
-      ],
       pietitle: '总投入',
       pieheader: '',
-      touruNum: [177133, 169043, 156670, 123908, {        value: 61954,
+      touruNum: [177133, 169043, 156670, 123908, 61954],
+      newNum: [177133, 169043, 156670, 123908, { value: 321779.48,
         itemStyle: {
           borderType: 'dotted',
-          color: '#ffdcc3'
+          barBorderColor: '#ffdcc3',
+          color: '#B49CDB'
         }
       }],
-      chanchu: [96083, 246140, 318999, 408068, {        value: 521779.48,
+      chanchu: [96083, 246140, 318999, 408068, {value: 521779.48,
         itemStyle: {
           borderType: 'dotted',
           barBorderColor: '#ffdcc3',
           color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
             offset: 0.4,
-            color: "#FF7F50"
+            color: "#fd6f97"
           },
           {
             offset: 1,
@@ -167,6 +117,7 @@ export default {
       }],
       sumNum: 100,
       myPie: null,
+      pieActive:0
     }
   },
   created() { },
@@ -176,11 +127,11 @@ export default {
     this.drawLine()
     if (this.$route.path == '/' || this.$route.path == '/index/投资收益评估概览') {
       this.com_name = 'eDialog'
-    } else if(this.$route.path == '/index/无线网概览'){
+    } else if (this.$route.path == '/index/无线网概览') {
       this.com_name = 'eDialogschool'
-      this.piedata=pieData.network
-    }else{
-       this.com_name = 'eDialogschool'
+      this.piedata = pieData.network
+    } else {
+      this.com_name = 'eDialogschool'
     }
     this.drawPie(this.piedata)
     this.clickPie()
@@ -188,16 +139,16 @@ export default {
   },
   watch: {
     $route(to, from) {
-      this.piedata=pieData.sumdata
+      this.piedata = pieData.sumdata
       if (this.$route.path == '/' || this.$route.path == '/index/投资收益评估概览') {
         this.com_name = 'eDialog';
         this.page = '';
-      } else if(this.$route.path == '/index/无线网概览'){
-         this.piedata=pieData.network
+      } else if (this.$route.path == '/index/无线网概览/network') {
+        this.piedata = pieData.network
         this.com_name = 'eDialogschool'
         this.page = to.params.id.replace('概览', '');
-      }else{
-         this.com_name = 'eDialogschool'
+      } else {
+        this.com_name = 'eDialogschool'
         this.page = to.params.id.replace('概览', '');
       }
       this.title = this.page
@@ -217,13 +168,13 @@ export default {
   },
   methods: {
     back() {
-      if(this.$route.path == '/index/无线网概览'){
-           this.piedata=pieData.network
-      }else{
-           this.piedata=pieData.sumdata
+      if (this.$route.path == '/index/无线网概览') {
+        this.piedata = pieData.network
+      } else {
+        this.piedata = pieData.sumdata
       }
       this.pietitle = '总投入',
-      this.pieheader = ''
+        this.pieheader = ''
     },
     open() {
       this.show = true;
@@ -349,7 +300,7 @@ export default {
               normal: {
                 formatter: function (params) {
                   var str = '';
-                  var rate = (Number(params.value) / Number(that.sumNum)) * 100
+                  var rate = (Number(params.value) / Number(that.sumNum)) * 100//\n
                   str = '{nameStyle|' + params.name + ' }' + '{rate|' + params.value + '亿}';
                   return str
                 },
@@ -421,12 +372,12 @@ export default {
       this.chart.on('click', function (param) {
         console.log(param)
         var name = param.name;
-        if(param.data.check){
+        if (param.data.check) {
           that.pietitle = name;
-          that.pieheader = ' > '+name
-          var second=param.data.secondName
-          that.piedata=pieData[second]
-        }else{
+          that.pieheader = ' > ' + name
+          var second = param.data.secondName
+          that.piedata = pieData[second]
+        } else {
           that.$message.error('已经到最底层了');
         }
         // if (name === '待摊投资') {
@@ -442,8 +393,8 @@ export default {
       var category = ['2015', '2016', '2017', '2018', '2019'];
       var dottedBase = [];
       var lineData = this.touruNum;
-      var barData = this.chanchu
-      //console.log(this.barData)
+      var barData = this.chanchu;
+      var newData = this.newNum
       var rateData = []; var dot = []
       for (var i = 0; i < 5; i++) {
         var bar = barData[i];
@@ -488,7 +439,7 @@ export default {
           }
         },
         legend: {
-          data: ['产出', '投入', '投入产出比',],
+          data: ['产出', '投入', '付现', '投入产出比',],
           textStyle: {
             color: '#333'
           },
@@ -575,21 +526,27 @@ export default {
             data: dot
           },
           {
-            name: '投入',
+            name: '付现',
             type: 'bar',
-            barWidth: 15,
+            barWidth: 12,
             itemStyle: {
               normal: {
                 barBorderRadius: 5,
-                color: 'rgb(215,215,215)'
+                color: new this.$echarts.graphic.LinearGradient(
+                  0, 0, 0, 1,
+                  [
+                    { offset: 0, color: '#B49CDB' },
+                    { offset: 1, color: '#B9B5EE' }
+                  ]
+                )
               }
             },
-            data: lineData
+            data: newData
           },
           {
             name: '产出',
             type: 'bar',
-            barWidth: 15,
+            barWidth: 12,
             itemStyle: {
               normal: {
                 barBorderRadius: 5,
@@ -604,6 +561,27 @@ export default {
             },
             data: barData
           },
+          {
+            name: '投入',
+            type: 'bar',
+            barWidth: 12,
+            itemStyle: {
+              normal: {
+                barBorderRadius: 5,
+                color: 'rgb(215,215,215)'
+                // color: new this.$echarts.graphic.LinearGradient(
+                //   0, 0, 0, 1,
+                //   [
+                //     { offset: 0, color: '#F4C309' },
+                //     { offset: 1, color: '#F9E184' }
+                //   ]
+                // )
+              }
+            },
+            data: lineData
+          },
+
+
         ]
       };
       var myChart = this.$echarts.init(document.getElementById('bar'));//获取容器元素
@@ -615,87 +593,79 @@ export default {
       EleResize.on(dom, lestener)
     },
     drawPie1() {
-      var data = [
-        {
-          name: '回本周期(月)',
-          value: 36
-        }, {
-          name: 'APPU值(亿元)',
-          value: 44
-        }]
-
-      var titleArr = [], seriesArr = [];
-      var colors = [['#6990D5', '#dfeaff'], ['#FF7F50', '#ffdcc3'], ['#ffc257', '#ffedcc'], ['#fd6f97', '#fed4e0'], ['#a181fc', '#e3d9fe']]
-      data.forEach(function (item, index) {
-        titleArr.push(
-          {
-            text: item.name,
-            left: index * 50 + 24 + '%',
-            top: '75%',
-            textAlign: 'center',
-            textStyle: {
-              fontWeight: 'normal',
-              fontSize: '16',
-              color: colors[index][0],
-              textAlign: 'center',
-            },
-          }
-        );
-        seriesArr.push(
-          {
-            name: item.name,
-            type: 'pie',
-            clockWise: false,
-            radius: [40, 50],
-            itemStyle: {
-              normal: {
-                color: colors[index][0],
-                shadowColor: colors[index][0],
-                shadowBlur: 0,
-                label: {
-                  show: false
-                },
-                labelLine: {
-                  show: false
-                },
-              }
-            },
-            hoverAnimation: false,
-            center: [index * 50 + 24 + '%', '45%'],
-            data: [{
-              value: item.value,
-              label: {
-                normal: {
-                  formatter: function (params) {
-                    return params.value + '';
-                  },
-                  position: 'center',
-                  show: true,
-                  textStyle: {
-                    fontSize: '20',
-                    fontWeight: 'bold',
-                    color: colors[index][0]
-                  }
-                }
-              },
-            }, {
-              value: 100 - item.value,
-              name: 'invisible',
-              itemStyle: {
-                normal: {
-                  color: colors[index][1]
-                },
-                emphasis: {
-                  color: colors[index][1]
-                }
-              }
-            }]
-          }
-        )
-      });
       var option = {
-        title: titleArr,
-        series: seriesArr
+        grid: {
+          top: "15%",
+          bottom: "15%",
+          left: "1%",
+          right: "1%",
+        },
+        tooltip:{ trigger: 'axis',},
+        xAxis: {
+          data: [
+            "2015",
+            "2016",
+            "2017",
+            "2018",
+            "2019",
+          ],
+          axisLine: {
+            show: false, //隐藏X轴轴线
+          },
+          type: "category",
+          axisTick: {
+            show: false, //隐藏X轴刻度
+          },
+          axisLabel: {
+            show: true,
+            textStyle: {
+              color: "#666", //X轴文字颜色
+              fontSize: "12",
+            },
+          },
+        },
+        yAxis: [
+          {
+            show: false,
+            type: "value",
+            
+          },
+        ],
+        series: [
+          {
+            name: "回报周期",
+            type: "line",
+            smooth: true, //平滑曲线显示
+            showAllSymbol: false, //显示所有图形。
+            symbol: "circle", //标记的图形为实心圆
+            symbolSize: 8, //标记的大小
+            itemStyle: {
+              //折线拐点标志的样式
+              color: "#4c8bfd",
+            },
+            lineStyle: {
+              color: "#4c8bfd",
+              width: 2,
+              shadowColor: 'rgba(76,139,253, 0.3)',
+                shadowBlur: 10,
+                shadowOffsetY: 10
+            },
+            areaStyle: {
+              color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                {
+                  offset: 0,
+                  color: "#DDE9FF",
+                },
+                {
+                  offset: 1,
+                  color: "rgba(76,139,253,0)",
+                },
+              ]),
+            },
+            data: [4, 4.3, 4.2, 4.5, 4.9, 4.8, 4, 3.8],
+          },
+
+        ],
       }
       this.myPie = this.$echarts.init(document.getElementById('pie1'));//获取容器元素
       this.myPie.setOption(option);
@@ -714,7 +684,7 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="less" >
 .rightBottom {
   width: 100%;
   height: 48%;
@@ -727,5 +697,42 @@ export default {
 }
 .back:hover {
   text-decoration: underline;
+}
+.cont {
+  width: 100%;
+  height: 20%;
+  line-height: 32px;
+  text-align: center;
+  > div {
+    cursor: pointer;
+  }
+  >div >p{
+    color: #7c89a0;
+  }
+  > div > p:nth-child(1) {
+    font-family: SourceHanSansSC-Regular;
+    font-size: 13px;
+  }
+  > div > p:nth-child(2) {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  >div.active >p {
+    color: #559ae7;
+     font-weight: bold;
+  }
+  .contLine {
+    width: 2px;
+    height: 80%;
+    margin-top: 5%;
+    background-color: #ddd;
+  }
+}
+#pie1 {
+  width: 100%;
+  height: 80%;
+}
+.pieT .el-card__body {
+  padding: 0;
 }
 </style>
