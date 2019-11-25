@@ -606,7 +606,7 @@ export default {
           top: "15%",
           bottom: "15%",
           left: "10%",
-          right: "1%",
+          right: "6%",
         },
         tooltip:{ trigger: 'axis',},
         legend:{

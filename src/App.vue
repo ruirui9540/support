@@ -18,7 +18,8 @@
                 <span> 项目：</span><el-cascader :options="options" size='mini' @change='change' clearable></el-cascader>
               </div>
                <div>
-                 <span>时间：</span><el-select v-model="value" size='mini' clearable placeholder="请选择">
+                 <span>时间：</span>
+                 <el-select v-model="value" size='mini' clearable placeholder="请选择" @change='selectchange'>
                     <el-option
                       v-for="item in selectData"
                       :key="item.value"
@@ -28,19 +29,11 @@
                   </el-select>
                </div>
             </div>
-            
           </div>
           <router-view></router-view>
         </div>
       </el-container>
     </el-container>
-    <!-- <Header></Header>
-    <div class="height flexbox">
-      <Menu></Menu>
-      <div class='flex'>
-        <router-view></router-view>
-      </div>
-    </div> -->
   </div>
 </template>
 <script>
@@ -97,6 +90,9 @@ export default {
           path: e
         })
       }
+    },
+    selectchange(value){
+      this.$store.dispatch('changeDate',value)
     }
   },
    watch:{

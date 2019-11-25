@@ -36,6 +36,8 @@ export default {
   created() { },
   mounted() {
     this.drawMap()
+    //获取store。js {{this.$store.state.date}}
+    console.log(this.$store.state.date)
   },
   watch: {
     $route(to, from) {

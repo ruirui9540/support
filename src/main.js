@@ -8,6 +8,8 @@ import api from './core/net/api';
 import VueCookies from 'vue-cookies';
 import echarts from 'echarts';
 import common from './core/common';
+//导入store
+import stores from './store/store'
 Vue.use(ElementUI)
 Vue.config.productionTip = false;
 // 全局变量定义
@@ -27,6 +29,6 @@ router.beforeEach((to, from, next) => {
 
 new Vue({
     router,
-    // store: stores,
+     store: stores,//引入store(Vuex框架进行传值)
     render: h => h(App),
 }).$mount('#app');

@@ -6,4 +6,7 @@ export default {
     hideloader: ({commit}) => {
         commit(types.HIDELOADING);
     },
+    changeDate (ctx,date) {
+        ctx.commit('changeDate',date)
+    }
 };
