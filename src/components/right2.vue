@@ -41,20 +41,21 @@
                 <i class="el-icon-s-management"></i>产出
               </span>
             </div>
-            <div class="height" id="div1">
-              <div class="oimg" @mouseover="stop" @mouseout="start()">
+            <div class="height" id="div1" v-if='secondLine'>
+              <div class="oimg" @mouseover="stop" @mouseout="start()" @click="secondLine=!secondLine">
                 <p>36</p>
                 <p>回本周期</p>
               </div>
-              <div class="oimg" @mouseover="stop" @mouseout="start()">
+              <div class="oimg" @mouseover="stop" @mouseout="start()" @click="secondLine=!secondLine">
                 <p>36</p>
                 <p>arpu(万)</p>
               </div>
-              <div class="oimg" @mouseover="stop" @mouseout="start()">
+              <div class="oimg" @mouseover="stop" @mouseout="start()" @click="secondLine=!secondLine">
                 <p>36</p>
                 <p>用户数(万)</p>
               </div>
             </div>
+            <div class='height' id='line' v-else></div>
           </el-card>
         </el-col>
       </el-row>
@@ -126,6 +127,7 @@ export default {
       avd: 120,
       //每一个BOX对应的弧度;
       ahd: 120 * Math.PI / 180,
+      secondLine:true
     }
   },
   created() { },

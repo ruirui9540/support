@@ -41,20 +41,23 @@
                 <i class="el-icon-s-management"></i>产出
               </span>
             </div>
-            <div  class='height' id="div1" >
-               <div class='oimg' @mouseover="stop" @mouseout="start()" >
-                  <p>36</p>
-                  <p>回本周期</p>
-                  </div>
-                <div class='oimg' @mouseover="stop" @mouseout="start()">
-                  <p>36</p>
-                  <p>arpu(万)</p>
-                  </div>
-                <div class='oimg' @mouseover="stop" @mouseout="start()">
-                  <p>36</p>
-                  <p>用户数(万)</p>
-                </div>
+            <div class="cont flexbox">
+              <div :class='["flex",pieActive==0 ? "active" : ""]' @click="pieActive=0">
+                <p>回报周期(月)</p>
+                <p>36</p>
+              </div>
+              <div class="contLine"></div>
+              <div :class='["flex",pieActive==1 ? "active" : ""]' @click="pieActive=1">
+                <p>ARPU(万元)</p>
+                <p>36</p>
+              </div>
+              <div class="contLine"></div>
+              <div :class='["flex",pieActive==2 ? "active" : ""]' @click="pieActive=2">
+                <p>用户数(万)</p>
+                <p>36</p>
+              </div>
             </div>
+            <div id="pie1"></div>
           </el-card>
         </el-col>
       </el-row>
@@ -115,7 +118,6 @@ export default {
       }],
       sumNum: 100,
       myPie: null,
-      pieActive:0,
       timer:null,
       centerx : 120, //圆心X
       centery :60, //圆心Y
@@ -123,9 +125,7 @@ export default {
       cnt : 3, //图片数
       da : 120, //图片间隔角度
       a0 : 0, //已旋转角度,
-      avd : 120,
-		//每一个BOX对应的弧度;
-    ahd : 120*Math.PI/180,
+      pieActive:0
     }
   },
   created() { },
@@ -145,7 +145,7 @@ export default {
       this.drawPie(this.piedata)
       this.clickPie()
       this.title = this.page
-      this.start()
+      this.drawPie1()
     })
     
   },
@@ -604,6 +604,73 @@ export default {
       }
       EleResize.on(dom, lestener)
     },
+    randomFrom(lowerValue, upperValue) {
+      return Math.floor(Math.random() * (upperValue - lowerValue + 1) + lowerValue);
+    },
+    posimgs1() {
+      var da=this.da,a0=this.a0;
+      var centerx=120,centery=80,r=80;
+      for(var i=0;i<3;i++){
+          $('.oimg')[i].style.left = centerx + r * Math.cos((da * i + a0) / 180 * Math.PI) + "px";
+          $('.oimg')[i].style.top = centery + r * Math.sin((da * i + a0) / 180 * Math.PI) + "px";
+        }
+    },
+    posimgs() {
+      var dotLeft = ($("#div1").width())/2;
+      //中心点纵坐标
+      var dotTop = ($("#div1").height())/2;
+      //椭圆长边
+      var a = 140;
+      //椭圆短边
+      var b = 60;
+      //起始角度
+      var stard = 0;
+      //每一个BOX对应的角度;
+      var avd = 360/$(".oimg").length;
+      //每一个BOX对应的弧度;
+      var ahd = avd*Math.PI/180;
+      //运动的速度
+      var speed = this.a0;
+      //图片的宽高
+      var wid = 110;
+      var hei = 110;
+      //总的TOP值
+      var totTop = dotTop+100;
+      //设置圆的中心点的位置
+      $(".dot").css({"left":dotLeft,"top":dotTop});
+      speed = speed<360?speed:2;
+        //运运的速度
+        //speed+=2;
+			//运动距离，即运动的弧度数;
+      var ainhd = speed*Math.PI/180;
+      for(var index=0;index<3;index++){
+         var allpers = (Math.cos((ahd*index+ainhd))*b+dotTop)/totTop;
+         var wpers = Math.max(0.1,allpers);
+         var hpers = Math.max(0.1,allpers);
+         $('.oimg')[index].style.left = Math.sin((ahd*index+ainhd))*a+dotLeft-20 + "px";
+         $('.oimg')[index].style.top = Math.cos((ahd*index+ainhd))*b+dotTop-60 + "px";
+          $('.oimg')[index].style.zIndex=Math.ceil(allpers*10);
+          $('.oimg')[index].style.width=wpers*wid+'px';
+          $('.oimg')[index].style.height=hpers*hei+'px';
+          $('.oimg')[index].style.opacity=allpers+0.2;
+          $('.oimg')[index].style.fontSize=18*allpers+'px';
+          $('.oimg')[index].style.lineHeight=hpers*hei/2.5+'px';
+        }
+    },
+    start() {
+      var that=this
+        const timer = window.setInterval(function(){
+          that.posimgs();
+          that.a0++
+        },100);
+         that.timer=timer
+        that.$once('hook:beforeDestroy', () => {            
+          clearInterval(that.timer);                                    
+      })
+    },
+    stop() {
+        window.clearInterval(this.timer);
+    },
     drawPie1() {
       var option = {
         grid: {
@@ -689,73 +756,6 @@ export default {
       EleResize.on(dom, lestener)
 
     },
-    randomFrom(lowerValue, upperValue) {
-      return Math.floor(Math.random() * (upperValue - lowerValue + 1) + lowerValue);
-    },
-    posimgs1() {
-      var da=this.da,a0=this.a0;
-      var centerx=120,centery=80,r=80;
-      for(var i=0;i<3;i++){
-          $('.oimg')[i].style.left = centerx + r * Math.cos((da * i + a0) / 180 * Math.PI) + "px";
-          $('.oimg')[i].style.top = centery + r * Math.sin((da * i + a0) / 180 * Math.PI) + "px";
-        }
-    },
-    posimgs() {
-      var dotLeft = ($("#div1").width())/2;
-      //中心点纵坐标
-      var dotTop = ($("#div1").height())/2;
-      //椭圆长边
-      var a = 140;
-      //椭圆短边
-      var b = 60;
-      //起始角度
-      var stard = 0;
-      //每一个BOX对应的角度;
-      var avd = 360/$(".oimg").length;
-      //每一个BOX对应的弧度;
-      var ahd = avd*Math.PI/180;
-      //运动的速度
-      var speed = this.a0;
-      //图片的宽高
-      var wid = 110;
-      var hei = 110;
-      //总的TOP值
-      var totTop = dotTop+100;
-      //设置圆的中心点的位置
-      $(".dot").css({"left":dotLeft,"top":dotTop});
-      speed = speed<360?speed:2;
-        //运运的速度
-        //speed+=2;
-			//运动距离，即运动的弧度数;
-      var ainhd = speed*Math.PI/180;
-      for(var index=0;index<3;index++){
-         var allpers = (Math.cos((ahd*index+ainhd))*b+dotTop)/totTop;
-         var wpers = Math.max(0.1,allpers);
-         var hpers = Math.max(0.1,allpers);
-         $('.oimg')[index].style.left = Math.sin((ahd*index+ainhd))*a+dotLeft-20 + "px";
-         $('.oimg')[index].style.top = Math.cos((ahd*index+ainhd))*b+dotTop-60 + "px";
-          $('.oimg')[index].style.zIndex=Math.ceil(allpers*10);
-          $('.oimg')[index].style.width=wpers*wid+'px';
-          $('.oimg')[index].style.height=hpers*hei+'px';
-          $('.oimg')[index].style.opacity=allpers+0.2;
-          $('.oimg')[index].style.fontSize=18*allpers+'px';
-          $('.oimg')[index].style.lineHeight=hpers*hei/2.5+'px';
-        }
-    },
-    start() {
-      var that=this
-        const timer = window.setInterval(function(){
-          that.posimgs();
-          that.a0++
-        },100);
-         that.timer=timer
-        that.$once('hook:beforeDestroy', () => {            
-          clearInterval(that.timer);                                    
-      })
-    },
-    stop() {
-        window.clearInterval(this.timer);
-    }
   },
   
 // destroyed() {

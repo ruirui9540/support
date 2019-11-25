@@ -38,26 +38,26 @@
           <el-card class="height">
             <div slot="header" class="clearfix">
               <span class="cardHead">
-                <i class="el-icon-s-management"></i>产出
+                <i class="el-icon-s-management"></i>
+                <span @click="backLine" class="back">产出</span>
+                <span>{{Lineheader}}</span>
               </span>
             </div>
-            <div class="cont flexbox">
-              <div :class='["flex",pieActive==0 ? "active" : ""]' @click="pieActive=0">
-                <p>回报周期(月)</p>
+             <div class="height" id="div1" v-show='secondLine'>
+              <div class="oimg" @mouseover="stop" @mouseout="start()" @click="secondClick('回本周期')">
                 <p>36</p>
+                <p>回本周期</p>
               </div>
-              <div class="contLine"></div>
-              <div :class='["flex",pieActive==1 ? "active" : ""]' @click="pieActive=1">
-                <p>ARPU(万元)</p>
+              <div class="oimg" @mouseover="stop" @mouseout="start()" @click="secondClick('arpu')">
                 <p>36</p>
+                <p>arpu(万)</p>
               </div>
-              <div class="contLine"></div>
-              <div :class='["flex",pieActive==2 ? "active" : ""]' @click="pieActive=2">
+              <div class="oimg" @mouseover="stop" @mouseout="start()" @click="secondClick('用户数')">
+                <p>36</p>
                 <p>用户数(万)</p>
-                <p>36</p>
               </div>
             </div>
-            <div id="pie1"></div>
+            <div class='height' id='pie1' v-show='!secondLine'></div>
           </el-card>
         </el-col>
       </el-row>
@@ -75,6 +75,7 @@ import eDialog from '../components/eDialog'
 import eDialogschool from '../components/eDialogSchool'
 import { EleResize } from '@/config/esresize'
 import pieData from '@/config/pieData'
+import $ from 'jquery'
 export default {
   name: 'Right',
   components: {
@@ -117,14 +118,15 @@ export default {
       }],
       sumNum: 100,
       myPie: null,
-      pieActive:0
+      pieActive:0,
+      secondLine:true,
+      da: 120, //图片间隔角度
+      a0: 0, //已旋转角度,
+      Lineheader:''
     }
   },
   created() { },
   mounted() {
-    this.chart = this.$echarts.init(document.getElementById('pie'));//获取容器元素
-    this.drawPie1()
-    this.drawLine()
     if (this.$route.path == '/' || this.$route.path == '/index/投资收益评估概览') {
       this.com_name = 'eDialog'
     } else if (this.$route.path == '/index/无线网概览') {
@@ -133,9 +135,15 @@ export default {
     } else {
       this.com_name = 'eDialogschool'
     }
-    this.drawPie(this.piedata)
-    this.clickPie()
-    this.title = this.page
+     //旋转运动
+    this.$nextTick(() => {
+      this.chart = this.$echarts.init(document.getElementById('pie'));//获取容器元素
+      this.drawLine()
+      this.drawPie(this.piedata)
+      this.clickPie()
+      this.title = this.page
+      this.start()
+    })
   },
   watch: {
     $route(to, from) {
@@ -592,15 +600,19 @@ export default {
       }
       EleResize.on(dom, lestener)
     },
-    drawPie1() {
+    drawPie1(name) {
       var option = {
         grid: {
           top: "15%",
           bottom: "15%",
-          left: "1%",
+          left: "10%",
           right: "1%",
         },
         tooltip:{ trigger: 'axis',},
+        legend:{
+            show:true,
+            data:[name]
+          },
         xAxis: {
           data: [
             "2015",
@@ -623,17 +635,33 @@ export default {
               fontSize: "12",
             },
           },
+          boundaryGap:0
         },
         yAxis: [
           {
-            show: false,
+            show: true,
             type: "value",
-            
+            axisLine: {
+              show: false, //隐藏轴线
+            },
+            splitLine:{
+               show: false, //隐藏轴线
+            },
+            axisTick: {
+              show: false, //隐藏轴刻度
+            },
+            axisLabel: {
+              show: true,
+              textStyle: {
+                color: "#666", //文字颜色
+                fontSize: "12",
+              },
+            },
           },
         ],
         series: [
           {
-            name: "回报周期",
+            name: name,
             type: "line",
             smooth: true, //平滑曲线显示
             showAllSymbol: false, //显示所有图形。
@@ -668,7 +696,7 @@ export default {
         ],
       }
       this.myPie = this.$echarts.init(document.getElementById('pie1'));//获取容器元素
-      this.myPie.setOption(option);
+      this.myPie.setOption(option,true);
       var dom = document.getElementById('pie1')
       var that = this;
       let lestener = function () {
@@ -679,6 +707,45 @@ export default {
     },
     randomFrom(lowerValue, upperValue) {
       return Math.floor(Math.random() * (upperValue - lowerValue + 1) + lowerValue);
+    },
+    posimgs1() {
+      var da = this.da, a0 = this.a0;
+      var centerx = 100, centery = 68, r = 68;
+      for (var i = 0; i < 3; i++) {
+        $('.oimg')[i].style.left = centerx + r * Math.cos((da * i + a0) / 180 * Math.PI) + "px";
+        $('.oimg')[i].style.top = centery + r * Math.sin((da * i + a0) / 180 * Math.PI) + "px";
+      }
+    },
+    start() {
+      var that = this;
+      const timer = window.setInterval(function () {
+        that.posimgs1();
+        that.a0++
+      }, 100);
+      that.timer=timer
+      that.$once('hook:beforeDestroy', () => {            
+          clearInterval(timer);                                    
+      })
+    },
+    stop() {
+      window.clearInterval(this.timer);
+    },
+    secondClick(type){
+      this.secondLine=!this.secondLine;
+      this.$nextTick(() => {
+        this.drawPie1(type)
+        this.stop()
+        console.log(type)
+        this.Lineheader=' > '+type
+      })
+      
+    },
+    backLine(){
+      this.secondLine=true;
+      this.$nextTick(() => {
+          this.start()
+          this.Lineheader=''
+        })
     }
   }
 }
@@ -728,11 +795,37 @@ export default {
     background-color: #ddd;
   }
 }
-#pie1 {
-  width: 100%;
-  height: 80%;
-}
+
 .pieT .el-card__body {
   padding: 0;
+}
+#div1 {
+  position: relative;
+  background: url("../assets/image/bg1.png") no-repeat center center;
+  background-size: 80% 100%;
+  > div {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    background: url("../assets/image/circle.png") no-repeat;
+    background-size: 100% 100%;
+    > p:nth-child(1) {
+      color: #fff;
+      font-size: 2em;
+      line-height: 60px;
+    }
+  }
+  > div:nth-child(1) {
+    background: url("../assets/image/circle1.png") no-repeat;
+    background-size: 100% 100%;
+  }
+  > div:nth-child(2) {
+    background: url("../assets/image/circle2.png") no-repeat;
+    background-size: 100% 100%;
+  }
+}
+.cardHead span{
+  cursor: pointer;
 }
 </style>
